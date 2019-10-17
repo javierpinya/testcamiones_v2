@@ -9,7 +9,7 @@
       android:strokeLineJoin="miter"
       android:strokeWidth="5"
       android:fillColor="#00000000"
-      android:strokeColor="#0219eb"
+      android:strokeColor="@color/colorAccent"
       android:strokeLineCap="butt"/>
   <path
       android:pathData="M99.132,320.914 L37.144,300.503 0.102,298.991"
@@ -17,7 +17,7 @@
       android:strokeLineJoin="miter"
       android:strokeWidth="5"
       android:fillColor="#00000000"
-      android:strokeColor="#0219eb"
+      android:strokeColor="@color/colorAccent"
       android:strokeLineCap="butt"/>
   <path
       android:pathData="m15.977,204.497 l77.863,10.583 21.923,11.339"
@@ -25,7 +25,7 @@
       android:strokeLineJoin="miter"
       android:strokeWidth="5"
       android:fillColor="#00000000"
-      android:strokeColor="#0219eb"
+      android:strokeColor="@color/colorAccent"
       android:strokeLineCap="butt"/>
   <path
       android:pathData="M129.37,196.938 L99.132,182.575"
@@ -33,7 +33,7 @@
       android:strokeLineJoin="miter"
       android:strokeWidth="5"
       android:fillColor="#00000000"
-      android:strokeColor="#0219eb"
+      android:strokeColor="@color/colorAccent"
       android:strokeLineCap="butt"/>
   <path
       android:pathData="m89.854,125.79 l16.394,21.91 -32.075,0.707"
@@ -41,7 +41,7 @@
       android:strokeLineJoin="miter"
       android:strokeWidth="4.69450903"
       android:fillColor="#00000000"
-      android:strokeColor="#0219eb"
+      android:strokeColor="@color/colorAccent"
       android:strokeLineCap="butt"/>
   <path
       android:pathData="m177.751,68.426 l-58.964,-30.994 -0.756,-34.774"
@@ -49,7 +49,7 @@
       android:strokeLineJoin="miter"
       android:strokeWidth="5"
       android:fillColor="#00000000"
-      android:strokeColor="#0219eb"
+      android:strokeColor="@color/colorAccent"
       android:strokeLineCap="butt"/>
   <path
       android:pathData="m146.001,51.795 l14.363,-18.143"
@@ -57,7 +57,7 @@
       android:strokeLineJoin="miter"
       android:strokeWidth="5"
       android:fillColor="#00000000"
-      android:strokeColor="#0219eb"
+      android:strokeColor="@color/colorAccent"
       android:strokeLineCap="butt"/>
   <path
       android:pathData="m118.786,37.432 l-15.875,12.851 -21.167,6.804 -27.97,-34.018"
@@ -65,7 +65,7 @@
       android:strokeLineJoin="miter"
       android:strokeWidth="5"
       android:fillColor="#00000000"
-      android:strokeColor="#0219eb"
+      android:strokeColor="@color/colorAccent"
       android:strokeLineCap="butt"/>
   <path
       android:pathData="M81.745,57.086 L77.965,78.253 46.215,97.152"
@@ -73,7 +73,7 @@
       android:strokeLineJoin="miter"
       android:strokeWidth="5"
       android:fillColor="#00000000"
-      android:strokeColor="#0219eb"
+      android:strokeColor="@color/colorAccent"
       android:strokeLineCap="butt"/>
   <path
       android:pathData="m21.876,0.076 l0.756,24.946 -13.607,20.411"
@@ -81,7 +81,7 @@
       android:strokeLineJoin="miter"
       android:strokeWidth="5"
       android:fillColor="#00000000"
-      android:strokeColor="#0219eb"
+      android:strokeColor="@color/colorAccent"
       android:strokeLineCap="butt"/>
   <path
       android:pathData="m229.156,63.134 l8.315,12.095"
@@ -89,7 +89,7 @@
       android:strokeLineJoin="miter"
       android:strokeWidth="5"
       android:fillColor="#00000000"
-      android:strokeColor="#0219eb"
+      android:strokeColor="@color/colorAccent"
       android:strokeLineCap="butt"/>
   <path
       android:pathData="M220.84,133.438 L205.721,154.604L205.721,182.575"
@@ -97,7 +97,7 @@
       android:strokeLineJoin="miter"
       android:strokeWidth="5"
       android:fillColor="#00000000"
-      android:strokeColor="#0219eb"
+      android:strokeColor="@color/colorAccent"
       android:strokeLineCap="butt"/>
   <path
       android:pathData="m216.304,239.271 l-17.387,18.899 -6.048,24.946"
@@ -105,6 +105,6 @@
       android:strokeLineJoin="miter"
       android:strokeWidth="5"
       android:fillColor="#00000000"
-      android:strokeColor="#0219eb"
+      android:strokeColor="@color/colorAccent"
       android:strokeLineCap="butt"/>
 </vector>

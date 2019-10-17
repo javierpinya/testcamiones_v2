@@ -5,92 +5,63 @@
     android:id="@+id/slideDashBoardConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ic_oleoducto">
+    android:background="@color/colorPrimary">
 
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView2"
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/cardView2"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cardView2"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView2">
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_oleoducto" />
 
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/cardView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cardView"
-        app:layout_constraintTop_toBottomOf="@+id/cardView3">
-
-    </androidx.cardview.widget.CardView>
-
-    <ImageButton
+    <ImageView
         android:id="@+id/imageCalculadora"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_marginBottom="224dp"
-        android:src="@mipmap/avatar"
+        android:background="@color/icons"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="256dp"
+        android:src="@drawable/ic_calculator"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageButton
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageBuscarInspeccion"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_marginTop="224dp"
+        android:layout_marginTop="256dp"
         android:layout_marginEnd="136dp"
-        android:src="@mipmap/avatar"
+        android:background="@color/icons"
+        android:src="@drawable/ic_clipboards"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageBuscarCamion"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginStart="164dp"
-        android:layout_marginTop="112dp"
-        android:src="@mipmap/avatar"
+        android:layout_marginTop="90dp"
+        android:background="@color/icons"
+        android:src="@drawable/ic_frontal_truck"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageNuevaInspeccion"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginEnd="56dp"
-        android:layout_marginBottom="20dp"
-        android:src="@mipmap/avatar"
+        android:layout_marginBottom="96dp"
+        android:background="@color/icons"
+        android:src="@drawable/ic_inspeccionado_new"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
