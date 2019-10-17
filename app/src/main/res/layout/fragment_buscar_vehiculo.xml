@@ -122,6 +122,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!--
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
@@ -150,4 +151,5 @@
 
         </com.getbase.floatingactionbutton.FloatingActionsMenu>
     </androidx.constraintlayout.widget.ConstraintLayout>
+    -->
 </FrameLayout>

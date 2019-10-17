@@ -24,6 +24,10 @@ public class TacprcoRepository {
         return tacprcoDao.findTacprcoByMatricula(matricula);
     }
 
+    public LiveData<List<TacprcoEntity>> getAllTacprco(){
+        return tacprcoDao.getAllTacprco();
+    }
+
     public TacprcoEntity findTacprcoById(int id){
         return tacprcoDao.findTacprcoById(id);
     }

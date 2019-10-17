@@ -36,7 +36,7 @@
             android:textSize="36sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/ivDivider"
-            app:layout_constraintEnd_toStartOf="@+id/ivTractoraBloqueada"
+            app:layout_constraintEnd_toStartOf="@+id/ind_observaciones"
             app:layout_constraintStart_toEndOf="@+id/ivTractora"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -75,7 +75,7 @@
             app:layout_constraintTop_toBottomOf="@+id/ivDivider" />
 
         <ImageView
-            android:id="@+id/ivTractoraBloqueada"
+            android:id="@+id/ind_observaciones"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_margin="8dp"
@@ -99,7 +99,7 @@
             android:layout_margin="8dp"
             app:layout_constraintBottom_toTopOf="@+id/ivDivider"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivTractoraBloqueada"
+            app:layout_constraintTop_toBottomOf="@+id/ind_observaciones"
             app:srcCompat="@drawable/ic_inspeccionado_false" />
 
         <ImageView

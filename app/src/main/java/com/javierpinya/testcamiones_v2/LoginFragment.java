@@ -4,6 +4,7 @@ package com.javierpinya.testcamiones_v2;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +23,10 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.javierpinya.testcamiones_v2.Clases.UsuarioEntity;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,6 +118,7 @@ public class LoginFragment extends Fragment {
         btnAddUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 lanzarDialogBuilder();
 
             }
@@ -141,8 +147,11 @@ public class LoginFragment extends Fragment {
         switch (item.getItemId()){
             case R.id.add_user:
                 lanzarDialogBuilder();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+
     }
 
     private void lanzarDialogBuilder() {
@@ -150,6 +159,8 @@ public class LoginFragment extends Fragment {
         NuevoUsuarioDialogFragment dialogNuevoUsuario = new NuevoUsuarioDialogFragment();
         dialogNuevoUsuario.show(fm, "NuevoUsuarioDialogFragment");
     }
+
+
 
 
 }

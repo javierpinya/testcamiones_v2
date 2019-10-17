@@ -6,7 +6,7 @@
     android:background="@color/colorPrimary">
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/etHelpSync"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -29,5 +29,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintTop_toBottomOf="@+id/etHelpSync" />
+
+    <Button
+        android:id="@+id/btnLeerBD"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Leer BD"
+        android:background="@color/colorAccent"
+        android:textColor="@color/icons"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSync" />
 </androidx.constraintlayout.widget.ConstraintLayout>
