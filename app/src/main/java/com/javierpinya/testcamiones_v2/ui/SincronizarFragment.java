@@ -29,6 +29,7 @@ import com.javierpinya.testcamiones_v2.Clases.UsuarioEntity;
 import com.javierpinya.testcamiones_v2.NuevoUsuarioDialogViewModel;
 import com.javierpinya.testcamiones_v2.R;
 import com.javierpinya.testcamiones_v2.TacprcoViewModel;
+import com.opencsv.CSVReader;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -56,7 +57,7 @@ public class SincronizarFragment extends Fragment {
     private List<String> matricula = new ArrayList<>();
     private List<Integer> tara = new ArrayList<>();
     private final String filename = "prueba_testcamiones";
-    private final String content = "E2474JNZ;18000;24000;";
+    private final String content = "E2474JNZ;18000;24000;"+"\n" + "E0000AAA;9000;12000;";
     private final String path = "/storage/emulated/0/Download/TestCamiones/";
 
 
@@ -111,7 +112,16 @@ public class SincronizarFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String cadena="";
+                List resultado = new ArrayList();
+                //resultado = leerArchivo("hola");
                 cadena = leerArchivo("hola");
+               /*
+                for (int i=0;i<resultado.size();i++){
+                    cadena += resultado.get(i);
+                }
+
+                */
+
                 etTexto.setText(cadena);
 
                 if(usuarios.size()>0){
@@ -152,20 +162,38 @@ public class SincronizarFragment extends Fragment {
 
     // Read content of the file
     private String leerArchivo(String input){
-        File file = new File(path, filename + ".txt");
+        File file = new File(path, filename + ".csv");
         StringBuilder text = new StringBuilder();
+        String texto="";
+        List resultList = new ArrayList();
+        int i=0;
         try{
+            CSVReader reader = new CSVReader(new FileReader(file));
+            String [] nextLine;
+            while ((nextLine = reader.readNext()) != null){
+
+                i=i+1;
+                text.append(nextLine);
+                texto=nextLine[0];
+
+            }
+
+            /*
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line;
             while((line = br.readLine()) != null){
-                text.append(line);
+                String[] row = line.split(";");
+                text.append(row);
                 text.append("\n");
+                resultList.add(row);
             }
             br.close();
+             */
+
         }catch (IOException e){
             e.printStackTrace();
         }
-        return text.toString();
+        return  texto;
     }
 
     //Select file from storate
@@ -184,13 +212,13 @@ public class SincronizarFragment extends Fragment {
                 String path = uri.getPath();
                 path = path.substring(path.indexOf(":") + 1);
                 Toast.makeText(getActivity(), "" + path, Toast.LENGTH_SHORT).show();
-                etTexto.setText(leerArchivo(path));
+               // etTexto.setText(leerArchivo(path));
             }
         }
     }
 
     private void saveTextAsFile(String filename, String content){
-        String fileName = filename + ".txt";
+        String fileName = filename + ".csv";
 
         //Create file
         File file = new File("/storage/emulated/0/Download/","TestCamiones");
