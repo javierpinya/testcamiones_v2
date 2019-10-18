@@ -107,4 +107,109 @@
         android:fillColor="#00000000"
         android:strokeColor="@color/colorAccent"
         android:strokeLineCap="butt"/>
+
+  <path
+      android:pathData="m243.519,44.235 l-26.458,36.286 -12.095,-11.339 -27.214,-0.756 -10.583,20.411 -27.97,21.167 -30.994,39.31 -27.214,128.512 -21.167,30.238 -42.333,10.583 35.53,16.631 -9.071,4.536"
+      android:strokeAlpha="1"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="5"
+      android:fillColor="#00000000"
+      android:strokeColor="@color/colorAccent"
+      android:strokeLineCap="butt"/>
+  <path
+      android:pathData="M99.132,320.914 L37.144,300.503 0.102,298.991"
+      android:strokeAlpha="1"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="5"
+      android:fillColor="#00000000"
+      android:strokeColor="@color/colorAccent"
+      android:strokeLineCap="butt"/>
+  <path
+      android:pathData="m15.977,204.497 l77.863,10.583 21.923,11.339"
+      android:strokeAlpha="1"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="5"
+      android:fillColor="#00000000"
+      android:strokeColor="@color/colorAccent"
+      android:strokeLineCap="butt"/>
+  <path
+      android:pathData="M129.37,196.938 L99.132,182.575"
+      android:strokeAlpha="1"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="5"
+      android:fillColor="#00000000"
+      android:strokeColor="@color/colorAccent"
+      android:strokeLineCap="butt"/>
+  <path
+      android:pathData="m89.854,125.79 l16.394,21.91 -32.075,0.707"
+      android:strokeAlpha="1"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="4.69450903"
+      android:fillColor="#00000000"
+      android:strokeColor="@color/colorAccent"
+      android:strokeLineCap="butt"/>
+  <path
+      android:pathData="m177.751,68.426 l-58.964,-30.994 -0.756,-34.774"
+      android:strokeAlpha="1"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="5"
+      android:fillColor="#00000000"
+      android:strokeColor="@color/colorAccent"
+      android:strokeLineCap="butt"/>
+  <path
+      android:pathData="m146.001,51.795 l14.363,-18.143"
+      android:strokeAlpha="1"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="5"
+      android:fillColor="#00000000"
+      android:strokeColor="@color/colorAccent"
+      android:strokeLineCap="butt"/>
+  <path
+      android:pathData="m118.786,37.432 l-15.875,12.851 -21.167,6.804 -27.97,-34.018"
+      android:strokeAlpha="1"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="5"
+      android:fillColor="#00000000"
+      android:strokeColor="@color/colorAccent"
+      android:strokeLineCap="butt"/>
+  <path
+      android:pathData="M81.745,57.086 L77.965,78.253 46.215,97.152"
+      android:strokeAlpha="1"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="5"
+      android:fillColor="#00000000"
+      android:strokeColor="@color/colorAccent"
+      android:strokeLineCap="butt"/>
+  <path
+      android:pathData="m21.876,0.076 l0.756,24.946 -13.607,20.411"
+      android:strokeAlpha="1"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="5"
+      android:fillColor="#00000000"
+      android:strokeColor="@color/colorAccent"
+      android:strokeLineCap="butt"/>
+  <path
+      android:pathData="m229.156,63.134 l8.315,12.095"
+      android:strokeAlpha="1"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="5"
+      android:fillColor="#00000000"
+      android:strokeColor="@color/colorAccent"
+      android:strokeLineCap="butt"/>
+  <path
+      android:pathData="M220.84,133.438 L205.721,154.604L205.721,182.575"
+      android:strokeAlpha="1"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="5"
+      android:fillColor="#00000000"
+      android:strokeColor="@color/colorAccent"
+      android:strokeLineCap="butt"/>
+  <path
+      android:pathData="m216.304,239.271 l-17.387,18.899 -6.048,24.946"
+      android:strokeAlpha="1"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="5"
+      android:fillColor="#00000000"
+      android:strokeColor="@color/colorAccent"
+      android:strokeLineCap="butt"/>
 </vector>
