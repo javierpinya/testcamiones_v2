@@ -27,6 +27,10 @@ public class TacprcoViewModel extends AndroidViewModel {
         return tacprcoRepository.findTacprcoByMatricula(matricula);
     }
 
+    public LiveData<List<TacprcoEntity>> getAllTacprco(){
+        return tacprcoRepository.getAllTacprco();
+    }
+
     public TacprcoEntity findTacprcoById(int id){
         return tacprcoRepository.findTacprcoById(id);
     }

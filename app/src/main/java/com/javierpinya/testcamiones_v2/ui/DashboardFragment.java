@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 
@@ -22,6 +23,7 @@ public class DashboardFragment extends Fragment{
     private ImageButton buscarInspeccion;
     private ImageButton nuevaInspeccion;
     private ImageButton calculadora;
+    private ImageView oleoducto;
 
 
     public DashboardFragment() {
@@ -38,6 +40,7 @@ public class DashboardFragment extends Fragment{
         buscarInspeccion = view.findViewById(R.id.imageBuscarInspeccion);
         nuevaInspeccion = view.findViewById(R.id.imageNuevaInspeccion);
         calculadora = view.findViewById(R.id.imageCalculadora);
+        oleoducto = view.findViewById(R.id.imageViewOleo);
 
 
         buscarCamion.setOnClickListener(new View.OnClickListener(){

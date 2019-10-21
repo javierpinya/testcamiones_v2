@@ -53,7 +53,7 @@ public class VehiculosAdapter extends RecyclerView.Adapter<VehiculosAdapter.Vehi
             tvCisterna = itemView.findViewById(R.id.tvCisterna);
             ivTractora = itemView.findViewById(R.id.ivTractora);
             ivCisterna = itemView.findViewById(R.id.ivCisterna);
-            ivTractoraBloqueada = itemView.findViewById(R.id.ivTractoraBloqueada);
+            ivTractoraBloqueada = itemView.findViewById(R.id.ind_observaciones);
             ivCisternaBloqueada = itemView.findViewById(R.id.ivCisternaBloqueada);
             ivTractoraInspeccionada = itemView.findViewById(R.id.ivTractoraInspeccionada);
             ivCisternaInspeccionada = itemView.findViewById(R.id.ivCisternaInspeccionada);

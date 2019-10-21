@@ -1,9 +1,18 @@
 package com.javierpinya.testcamiones_v2;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
+import android.view.View;
 import android.widget.FrameLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -14,8 +23,12 @@ import com.javierpinya.testcamiones_v2.ui.DashboardFragment;
 import com.javierpinya.testcamiones_v2.ui.PerfilFragment;
 import com.javierpinya.testcamiones_v2.ui.SincronizarFragment;
 
+import java.io.File;
+
 public class MenuActivity extends AppCompatActivity {
 
+    private static final int PERMISSION_READ_EXTARNAL_MEMORY = 1000;
+    private static final int PERMISSION_READ_EXTERNAL_MEMORY = 100;
     FragmentPagerAdapter adapter;
 
     private BottomNavigationView bottomNavigationView;
@@ -35,58 +48,51 @@ public class MenuActivity extends AppCompatActivity {
         adapter = new SliderAdapter(getSupportFragmentManager());
         vpPager.setAdapter(adapter);
         vpPager.setPageTransformer(true, new CubeOutTransformer());
+
+
+        //isExternalStorageReadable();
     }
+
 
 
 /*
-        bottomNavigationView = findViewById(R.id.nav_view);
-        //frameLayout = findViewById(R.id.contenedor_menu);
+    private boolean hasPermission(String permissionToCheck){
+        int permissionCheck = ContextCompat.checkSelfPermission(this, permissionToCheck);
+        return (permissionCheck == PackageManager.PERMISSION_GRANTED);
+    }
 
-        dashboardFragment = new DashboardFragment();
-        perfilFragment = new PerfilFragment();
-        sincronizarFragment = new SincronizarFragment();
+    private void checkForPermission(){
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
 
+        if(permissionCheck != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    PERMISSION_READ_EXTARNAL_MEMORY);
+        }
+    }
 
-        firstFragment(dashboardFragment);
-        bottomNavigationView.setSelectedItemId(R.id.navigation_dashboard);
+ */
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+    private boolean isExternalStorageReadable(){
+        if(Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
+                || Environment.MEDIA_MOUNTED_READ_ONLY.equals(Environment.getExternalStorageState())){
+            Log.i("State", "Yes, it is readable!");
+            return true;
+        }else{
+            return false;
+        }
+    }
 
-                switch (menuItem.getItemId()){
-                    case R.id.navigation_perfil:
-                         setFragment(perfilFragment);
-                        return true;
-                    case R.id.navigation_dashboard:
-                        setFragment(dashboardFragment);
-                        return true;
-                    case R.id.navigation_sincronizar:
-                        setFragment(sincronizarFragment);
-                        return true;
+/*
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch(requestCode){
+            case PERMISSION_READ_EXTERNAL_MEMORY:
+                if((grantResults.length>0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)){
+
                 }
-
-                Toast.makeText(getApplicationContext(), "entramos en: " + menuItem.getItemId(), Toast.LENGTH_SHORT).show();
-
-                return false;
-            }
-        });
-
+        }
     }
 
-    /*
-
-    private void setFragment(Fragment fragment){
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.contenedor_menu, fragment);
-        fragmentTransaction.commit();
-    }
-
-    private void firstFragment(Fragment fragment){
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.add(R.id.contenedor_menu, fragment);
-                fragmentTransaction.commit();
-    }
-
-     */
+ */
 }

@@ -27,6 +27,15 @@ public class TacprcoEntity {
     public boolean ind_bloqueo = false;
     public boolean ind_queroseno = false;
 
+    public TacprcoEntity(String matricula, int tara, int peso_maximo, int chip, String tipo, String cod_nacion) {
+        this.matricula = matricula;
+        this.tara = tara;
+        this.peso_maximo = peso_maximo;
+        this.chip = chip;
+        this.tipo = tipo;
+        this.cod_nacion = cod_nacion;
+    }
+
     public int getId() {
         return id;
     }

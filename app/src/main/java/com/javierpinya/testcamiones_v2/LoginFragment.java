@@ -4,6 +4,7 @@ package com.javierpinya.testcamiones_v2;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +23,10 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.javierpinya.testcamiones_v2.Clases.UsuarioEntity;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,7 +95,6 @@ public class LoginFragment extends Fragment {
                     for (int i=0;i<allUsuarios.size();i++){
                         if (user.trim().equals(allUsuarios.get(i).usuario.trim())) {
                             if (pass.trim().equals(allUsuarios.get(i).password.trim())) {
-                                Toast.makeText(getActivity(), "Entra", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent();
                                 intent.setClass(getContext(), MenuActivity.class);
                                 startActivity(intent);
@@ -102,7 +106,6 @@ public class LoginFragment extends Fragment {
                         }else{
                             login = false;
                             //allUsuarios.clear();
-                            Toast.makeText(getActivity(), "usuario: " + user.trim() + " - bbdd: " + allUsuarios.get(0).usuario.trim(), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -113,6 +116,7 @@ public class LoginFragment extends Fragment {
         btnAddUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 lanzarDialogBuilder();
 
             }
@@ -141,8 +145,11 @@ public class LoginFragment extends Fragment {
         switch (item.getItemId()){
             case R.id.add_user:
                 lanzarDialogBuilder();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+
     }
 
     private void lanzarDialogBuilder() {
@@ -150,6 +157,8 @@ public class LoginFragment extends Fragment {
         NuevoUsuarioDialogFragment dialogNuevoUsuario = new NuevoUsuarioDialogFragment();
         dialogNuevoUsuario.show(fm, "NuevoUsuarioDialogFragment");
     }
+
+
 
 
 }

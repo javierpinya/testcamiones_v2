@@ -41,4 +41,6 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.getbase:floatingactionbutton:1.10.1'
     implementation 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
+    implementation 'com.opencsv:opencsv:4.6'
+
 }
