@@ -53,6 +53,7 @@ public class SincronizarFragment extends Fragment {
     private final String filename = "prueba_testcamiones2";
     private final List<String> content = new ArrayList<>();
     private final String path = "/storage/emulated/0/Download/TestCamiones/";
+    private TacprcoEntity tacprcoEntity;
 
 
     public SincronizarFragment() {
@@ -74,7 +75,7 @@ public class SincronizarFragment extends Fragment {
         btnLeerBD = view.findViewById(R.id.btnLeerBD);
         etTexto = view.findViewById(R.id.etHelpSync);
 
-        NuevoUsuarioDialogViewModel mViewModel = ViewModelProviders.of(getActivity()).get(NuevoUsuarioDialogViewModel.class);
+        final NuevoUsuarioDialogViewModel mViewModel = ViewModelProviders.of(getActivity()).get(NuevoUsuarioDialogViewModel.class);
         mViewModel.insertarUsuario(new UsuarioEntity("juan", "juan"));
 
 
@@ -85,11 +86,12 @@ public class SincronizarFragment extends Fragment {
             public void onClick(View v) {
 
                 lanzarViewModel();
+                tacprcoViewModel.deleteAllTacprco();
 
                 for (int i=0;i<10;i++){
-                    content.add("E247" + i + "4JNZ,18000" + i + ",24000" + i + "\n");
+                    content.add("E24" + i + "4JNZ,1800" + i + ",2400" + i + "\n");
                 }
-                saveTextAsFile(filename,content);
+                //saveTextAsFile(filename,content);
                // NuevoUsuarioDialogViewModel mViewModel = ViewModelProviders.of(getActivity()).get(NuevoUsuarioDialogViewModel.class);
                // mViewModel.insertarUsuario(new UsuarioEntity("juan", "juan"));
 
@@ -113,7 +115,7 @@ public class SincronizarFragment extends Fragment {
                     @Override
                     public void onChanged(List<TacprcoEntity> tacprcoEntities) {
                         for (int i=0;i<tacprcoEntities.size();i++){
-                            Log.d("TACPRCO: ", tacprcoEntities.get(i).getMatricula() + " " + tacprcoEntities.get(i).getTara());
+                            Log.d("TACPRCO: ", tacprcoEntities.get(i).getMatricula() + " " + tacprcoEntities.get(i).getTara() + " " + tacprcoEntities.get(i).getChip());
                         }
                     }
                 });
@@ -149,8 +151,9 @@ public class SincronizarFragment extends Fragment {
             String[] nextLine;
             while ((nextLine = reader.readNext()) != null) {
                 tacprcoViewModel.insertTacprco(new TacprcoEntity(nextLine[0], Integer.valueOf(nextLine[1]), Integer.valueOf(nextLine[2]),121212,"T","E"));
-                Log.e("Datos: ", "" + nextLine[0] + " - " + nextLine[1] + " - " + nextLine[2]);
+                //Log.e("Datossssss: ", "" + nextLine[0] + " - " + nextLine[1] + " - " + nextLine[2]);
             }
+
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -182,15 +185,19 @@ public class SincronizarFragment extends Fragment {
     private void saveTextAsFile(String filename, List<String> content){
         String fileName = filename + ".csv";
         File file;
+        file = new File(getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName);
 
+       /*
         //Create file
-        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.Q){
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
             file = new File(getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName);
 
         }else {
             file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
 
         }
+
+        */
 
         //Write file
         try {

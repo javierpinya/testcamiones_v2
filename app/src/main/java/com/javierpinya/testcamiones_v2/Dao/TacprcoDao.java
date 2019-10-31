@@ -32,5 +32,8 @@ public interface TacprcoDao {
     @Query("SELECT * FROM tacprco WHERE id LIKE :id")
     TacprcoEntity findTacprcoById(int id);
 
+    @Query("DELETE FROM tacprco")
+    void deleteAllTacprco();
+
 
 }

@@ -47,5 +47,9 @@ public class TacprcoViewModel extends AndroidViewModel {
         tacprcoRepository.deleteTacprcoById(tacprcoEntity);
     }
 
+    public void deleteAllTacprco(){
+        tacprcoRepository.deleteAllTacprco();
+    }
+
 
 }

@@ -82,4 +82,23 @@ public class TacprcoRepository {
             return null;
         }
     }
+
+    public void deleteAllTacprco(){
+        new deleteAllAsyncTask(tacprcoDao).execute();
+    }
+
+    private static class deleteAllAsyncTask extends AsyncTask<TacprcoEntity, Void, Void>{
+
+        private TacprcoDao asyncTaskDao;
+
+        deleteAllAsyncTask(TacprcoDao dao){
+            asyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(TacprcoEntity... tacprcoEntities) {
+            asyncTaskDao.deleteAllTacprco();
+            return null;
+        }
+    }
 }
