@@ -22,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private SharedPreferences prefs;
     private final int PERMISSION_REQUEST_STORAGE = 10;
+    private boolean permiso_version_antigua;
 
 
     @Override
@@ -52,7 +53,16 @@ public class LoginActivity extends AppCompatActivity {
                 != PackageManager.PERMISSION_GRANTED){
             requestPermissions(new String[]{
                     Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_STORAGE);
+        }else{
+            permiso_version_antigua = ChekPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
+    }
+
+    private boolean ChekPermission(String permission){
+        //Este método comprueba si el persmiso que se pasa está declarado o disponemos de el
+        //Si el permiso está granted (está declarado con uses-permission) devolverá true.
+        int result = this.checkCallingOrSelfPermission(permission);
+        return result==PackageManager.PERMISSION_GRANTED;
     }
 
     @Override
@@ -71,6 +81,8 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     }
+
+
 
     private boolean isExternalStorageWritable(){
         if(Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())){

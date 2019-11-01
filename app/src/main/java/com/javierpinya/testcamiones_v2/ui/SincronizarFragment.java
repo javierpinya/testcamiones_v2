@@ -78,7 +78,10 @@ public class SincronizarFragment extends Fragment {
         final NuevoUsuarioDialogViewModel mViewModel = ViewModelProviders.of(getActivity()).get(NuevoUsuarioDialogViewModel.class);
         mViewModel.insertarUsuario(new UsuarioEntity("juan", "juan"));
 
-
+        for (int i=0;i<10;i++){
+            content.add("E24" + i + "4JNZ,1800" + i + ",2400" + i + "\n");
+        }
+        saveTextAsFile(filename,content);
 
 
         btnSincronizar.setOnClickListener(new View.OnClickListener() {
@@ -87,11 +90,10 @@ public class SincronizarFragment extends Fragment {
 
                 lanzarViewModel();
                 tacprcoViewModel.deleteAllTacprco();
+                leerArchivo();
 
-                for (int i=0;i<10;i++){
-                    content.add("E24" + i + "4JNZ,1800" + i + ",2400" + i + "\n");
-                }
-                //saveTextAsFile(filename,content);
+
+                //
                // NuevoUsuarioDialogViewModel mViewModel = ViewModelProviders.of(getActivity()).get(NuevoUsuarioDialogViewModel.class);
                // mViewModel.insertarUsuario(new UsuarioEntity("juan", "juan"));
 
@@ -110,7 +112,7 @@ public class SincronizarFragment extends Fragment {
             public void onClick(View v) {
                 String cadena="";
                 List resultado = new ArrayList();
-                leerArchivo();
+
                 tacprcoViewModel.getAllTacprco().observe(getActivity(), new Observer<List<TacprcoEntity>>() {
                     @Override
                     public void onChanged(List<TacprcoEntity> tacprcoEntities) {
@@ -193,8 +195,8 @@ public class SincronizarFragment extends Fragment {
             file = new File(getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName);
 
         }else {
-            file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
-
+            //file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
+            file = new File(getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName);
         }
 
         */
