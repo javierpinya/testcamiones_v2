@@ -5,8 +5,10 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 import com.javierpinya.testcamiones_v2.Constants.Constants;
+import com.javierpinya.testcamiones_v2.Converters.Converters;
 
 import java.util.Date;
 
@@ -17,6 +19,7 @@ import java.util.Date;
         indices = {@Index(value = {"id"}, unique = true),
                 @Index(value = {"vehiculoId"}, unique = true)}
         )
+@TypeConverters(Converters.class)
 public class TaccatrEntity {
     @PrimaryKey(autoGenerate = true)
     public int id;
@@ -24,7 +27,15 @@ public class TaccatrEntity {
     @ColumnInfo(name = "transportista")
     public String cod_transportista;
     public String slo;
-    public Date fec_baja = new Date();
+    public Date fec_baja;
+
+    public TaccatrEntity(int vehiculoId, String cod_transportista, String slo, Date fec_baja) {
+        this.vehiculoId = vehiculoId;
+        this.cod_transportista = cod_transportista;
+        this.slo = slo;
+        this.fec_baja = new Date();
+        this.fec_baja = fec_baja;
+    }
 
     public int getId() {
         return id;

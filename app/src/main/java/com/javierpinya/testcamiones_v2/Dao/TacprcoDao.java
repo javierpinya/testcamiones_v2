@@ -35,5 +35,4 @@ public interface TacprcoDao {
     @Query("DELETE FROM tacprco")
     void deleteAllTacprco();
 
-
 }

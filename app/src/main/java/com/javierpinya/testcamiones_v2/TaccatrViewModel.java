@@ -36,11 +36,15 @@ public class TaccatrViewModel extends AndroidViewModel {
         taccatrRepository.insertTaccatr(taccatr);
     }
 
-    public void deleteTaccatr(TaccatrEntity taccatr){
+    public void deleteTaccatrById(TaccatrEntity taccatr){
         taccatrRepository.deleteTaccatr(taccatr);
     }
 
     public void updateTaccatr(TaccatrEntity taccatr){
         taccatrRepository.updateTaccatrById(taccatr);
+    }
+
+    public void deleteAllTaccatr(){
+        taccatrRepository.deleteAllTaccatr();
     }
 }

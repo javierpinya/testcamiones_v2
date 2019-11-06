@@ -24,6 +24,10 @@ public class TacsecoRepository {
         return tacsecoDao.findTacsecoByMatricula(matricula);
     }
 
+    public LiveData<List<TacsecoEntity>> getAllTacseco(){
+        return tacsecoDao.getAllTacseco();
+    }
+
     public TacsecoEntity findTacsecoById(int id){
         return tacsecoDao.findTacsecoById(id);
     }
@@ -75,6 +79,21 @@ public class TacsecoRepository {
         @Override
         protected Void doInBackground(TacsecoEntity... tacsecoEntities) {
             asyncTaskDao.deleteTacsecoById(tacsecoEntities[0]);
+            return null;
+        }
+    }
+
+    public void deleteAllTacseco(){ new deleteAllAsyncTask(tacsecoDao).execute();}
+
+    private static class deleteAllAsyncTask extends AsyncTask<TacsecoEntity, Void, Void>{
+
+        private TacsecoDao asyncTaskDao;
+
+        deleteAllAsyncTask(TacsecoDao dao){ asyncTaskDao = dao;}
+
+        @Override
+        protected Void doInBackground(TacsecoEntity... tacsecoEntities) {
+            asyncTaskDao.deleteAllTacseco();
             return null;
         }
     }

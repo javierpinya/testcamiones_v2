@@ -3,14 +3,17 @@ package com.javierpinya.testcamiones_v2.Clases;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 import com.javierpinya.testcamiones_v2.Constants.Constants;
+import com.javierpinya.testcamiones_v2.Converters.Converters;
 
 import java.util.Date;
 
 
 @Entity(tableName = Constants.NAME_TABLE_TACPRCO,
         indices = {@Index(value = {"id"}, unique = true)})
+@TypeConverters(Converters.class)
 public class TacprcoEntity {
     @PrimaryKey(autoGenerate = true)
     public int id;
@@ -27,13 +30,19 @@ public class TacprcoEntity {
     public boolean ind_bloqueo = false;
     public boolean ind_queroseno = false;
 
-    public TacprcoEntity(String matricula, int tara, int peso_maximo, int chip, String tipo, String cod_nacion) {
+    public TacprcoEntity(String matricula, Date fec_cadu_itv, Date fec_cadu_adr, int tara, int peso_maximo, int chip, String tipo, Date fec_baja, String cod_nacion, boolean solo_gasoleos, boolean ind_bloqueo, boolean ind_queroseno) {
         this.matricula = matricula;
         this.tara = tara;
         this.peso_maximo = peso_maximo;
         this.chip = chip;
         this.tipo = tipo;
         this.cod_nacion = cod_nacion;
+        this.fec_cadu_itv = new Date();
+        this.fec_cadu_adr = new Date();
+        this.fec_baja = new Date();
+        this.fec_cadu_itv = fec_cadu_itv;
+        this.fec_cadu_adr = fec_cadu_adr;
+        this.fec_baja = fec_baja;
     }
 
     public int getId() {

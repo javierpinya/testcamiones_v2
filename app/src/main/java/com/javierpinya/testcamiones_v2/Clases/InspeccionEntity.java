@@ -4,8 +4,10 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 import com.javierpinya.testcamiones_v2.Constants.Constants;
+import com.javierpinya.testcamiones_v2.Converters.Converters;
 
 import java.util.Date;
 
@@ -31,6 +33,7 @@ import java.util.Date;
                         childColumns = "conductorId")
         }
 )
+@TypeConverters(Converters.class)
 public class InspeccionEntity {
 
     @PrimaryKey(autoGenerate = true)
@@ -82,10 +85,65 @@ public class InspeccionEntity {
     public boolean isTFavorable=false;
     public boolean isTRevisada=false;
     public boolean isTBloqueada=false;
-
     public boolean isCFavorable=false;
     public boolean isCRevisada=false;
     public boolean isCBloqueada=false;
+
+    public InspeccionEntity(String inspeccion, String inspector, String instalacion, int cisternaId, Date fechaInicioInspeccion, String albaran, int conductorId, int transportistaId, String empresaTablaCalibracion, String tipoComponente, String observaciones, Date fechaFinInspeccion, boolean isPermisoConducir, boolean isAdrConductor, boolean isItvTractora, boolean isAdrTractora, boolean isItvCisterna, boolean isAdrCisterna, boolean isFichaSeguridad, Date fechaTablaCalibracion, boolean isTChip, boolean isCChip, boolean isSuperficieAntideslizante, boolean isCInspeccionada, int tractoraId, boolean isPosicionamientoAdecuadoEnIsleta, boolean isAccFrenoEstacionamientoMarchaCorta, boolean isAccDesBaterias, boolean isApagallamas, boolean isDescTfnoMovil, boolean isInterruptorEmergenciaYFuego, boolean isConexionTomaTierra, boolean isConexionMangueraGases, boolean isPurgaCompartimentos, boolean isRopaSeguridad, boolean isEstanqueidadCisterna, boolean isEstanqueidadValvulasApi, boolean isEstanqueidadCajon, boolean isRecogerAlbaran, boolean isTC2, boolean isMontajeCorrectoTags, boolean isBajadaTagPlanta, boolean isLecturaTagIsleta, boolean isTInspeccionada, boolean isTFavorable, boolean isTRevisada, boolean isTBloqueada, boolean isCFavorable, boolean isCRevisada, boolean isCBloqueada) {
+        this.inspeccion = inspeccion;
+        this.inspector = inspector;
+        this.instalacion = instalacion;
+        this.cisternaId = cisternaId;
+        this.fechaInicioInspeccion = new Date();
+        this.fechaInicioInspeccion = fechaInicioInspeccion;
+        this.albaran = albaran;
+        this.conductorId = conductorId;
+        this.transportistaId = transportistaId;
+        this.empresaTablaCalibracion = empresaTablaCalibracion;
+        this.tipoComponente = tipoComponente;
+        this.observaciones = observaciones;
+        this.fechaFinInspeccion = new Date();
+        this.fechaFinInspeccion = fechaFinInspeccion;
+        this.isPermisoConducir = isPermisoConducir;
+        this.isAdrConductor = isAdrConductor;
+        this.isItvTractora = isItvTractora;
+        this.isAdrTractora = isAdrTractora;
+        this.isItvCisterna = isItvCisterna;
+        this.isAdrCisterna = isAdrCisterna;
+        this.isFichaSeguridad = isFichaSeguridad;
+        this.fechaTablaCalibracion = new Date();
+        this.fechaTablaCalibracion = fechaTablaCalibracion;
+        this.isTChip = isTChip;
+        this.isCChip = isCChip;
+        this.isSuperficieAntideslizante = isSuperficieAntideslizante;
+        this.isCInspeccionada = isCInspeccionada;
+        this.tractoraId = tractoraId;
+        this.isPosicionamientoAdecuadoEnIsleta = isPosicionamientoAdecuadoEnIsleta;
+        this.isAccFrenoEstacionamientoMarchaCorta = isAccFrenoEstacionamientoMarchaCorta;
+        this.isAccDesBaterias = isAccDesBaterias;
+        this.isApagallamas = isApagallamas;
+        this.isDescTfnoMovil = isDescTfnoMovil;
+        this.isInterruptorEmergenciaYFuego = isInterruptorEmergenciaYFuego;
+        this.isConexionTomaTierra = isConexionTomaTierra;
+        this.isConexionMangueraGases = isConexionMangueraGases;
+        this.isPurgaCompartimentos = isPurgaCompartimentos;
+        this.isRopaSeguridad = isRopaSeguridad;
+        this.isEstanqueidadCisterna = isEstanqueidadCisterna;
+        this.isEstanqueidadValvulasApi = isEstanqueidadValvulasApi;
+        this.isEstanqueidadCajon = isEstanqueidadCajon;
+        this.isRecogerAlbaran = isRecogerAlbaran;
+        this.isTC2 = isTC2;
+        this.isMontajeCorrectoTags = isMontajeCorrectoTags;
+        this.isBajadaTagPlanta = isBajadaTagPlanta;
+        this.isLecturaTagIsleta = isLecturaTagIsleta;
+        this.isTInspeccionada = isTInspeccionada;
+        this.isTFavorable = isTFavorable;
+        this.isTRevisada = isTRevisada;
+        this.isTBloqueada = isTBloqueada;
+        this.isCFavorable = isCFavorable;
+        this.isCRevisada = isCRevisada;
+        this.isCBloqueada = isCBloqueada;
+    }
 
     public int getId() {
         return id;

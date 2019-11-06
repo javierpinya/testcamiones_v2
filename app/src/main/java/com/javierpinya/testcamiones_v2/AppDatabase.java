@@ -16,6 +16,7 @@ import com.javierpinya.testcamiones_v2.Clases.TaccatrEntity;
 import com.javierpinya.testcamiones_v2.Clases.TaccondEntity;
 import com.javierpinya.testcamiones_v2.Clases.TacprcoEntity;
 import com.javierpinya.testcamiones_v2.Clases.TacsecoEntity;
+import com.javierpinya.testcamiones_v2.Clases.TplcprtEntity;
 import com.javierpinya.testcamiones_v2.Clases.UsuarioEntity;
 import com.javierpinya.testcamiones_v2.Constants.Constants;
 import com.javierpinya.testcamiones_v2.Converters.Converters;
@@ -25,9 +26,10 @@ import com.javierpinya.testcamiones_v2.Dao.TaccatrDao;
 import com.javierpinya.testcamiones_v2.Dao.TaccondDao;
 import com.javierpinya.testcamiones_v2.Dao.TacprcoDao;
 import com.javierpinya.testcamiones_v2.Dao.TacsecoDao;
+import com.javierpinya.testcamiones_v2.Dao.TplcprtDao;
 import com.javierpinya.testcamiones_v2.Dao.UsuarioDao;
 
-@Database(entities = {UsuarioEntity.class, TaccamiEntity.class, TacprcoEntity.class, TacsecoEntity.class, InspeccionEntity.class, TaccatrEntity.class, TaccondEntity.class}, version = 1, exportSchema = false)
+@Database(entities = {UsuarioEntity.class, TaccamiEntity.class, TacprcoEntity.class, TacsecoEntity.class, InspeccionEntity.class, TaccatrEntity.class, TaccondEntity.class, TplcprtEntity.class}, version = 1, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -38,6 +40,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract TacsecoDao tacsecoDao();
     public abstract TaccatrDao taccatrDao();
     public abstract TaccondDao taccondDao();
+    public abstract TplcprtDao tplcprtDao();
 
 
     private static volatile AppDatabase INSTANCE;
@@ -63,13 +66,26 @@ public abstract class AppDatabase extends RoomDatabase {
     static final Migration MIGRATION_1_2 = new Migration(1,2) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE " + Constants.NAME_TABLE_TPLCPRT + " (id INTEGER PRIMARY KEY NOT NULL," +
+                    "cod_compartimento INTEGER DEFAULT 0, id_tipo_componente INTEGER DEFAULT 0," +
+                    "cisternaId INTEGER NOT NULL, can_capacidad INTEGER DEFAULT 0, cod_tag_cprt TEXT," +
+                    "foreign key (cisternaId) references " + Constants.NAME_TABLE_TACSECO +
+                    "(id) ON DELETE CASCADE)");
+            database.execSQL("CREATE UNIQUE INDEX index_" + Constants.NAME_TABLE_TPLCPRT + "_cisternaId ON " + Constants.NAME_TABLE_TPLCPRT + "(cisternaId)");
+            database.execSQL("CREATE UNIQUE INDEX index_" + Constants.NAME_TABLE_TPLCPRT + "_id ON " + Constants.NAME_TABLE_TPLCPRT + "(id)");
+        }
+    };
+
+    static final Migration MIGRATION_2_3 = new Migration(2,3) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("CREATE TABLE vehiculo (id INTEGER PRIMARY KEY NOT NULL," +
                     "tMatricula TEXT, tTipo TEXT, tInspeccionada INTEGER DEFAULT 0, tBloqueada INTEGER DEFAULT 0," +
                     "cMatricula TEXT, cInspeccionada INTEGER DEFAULT 0, cBloqueada INTEGER DEFAULT 0)");
         }
     };
 
-    static final Migration MIGRATION_2_3 = new Migration(2,3) {
+    static final Migration MIGRATION_3_4 = new Migration(3,4) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("DROP TABLE vehiculo");

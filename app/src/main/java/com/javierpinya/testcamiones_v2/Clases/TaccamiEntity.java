@@ -4,8 +4,10 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 import com.javierpinya.testcamiones_v2.Constants.Constants;
+import com.javierpinya.testcamiones_v2.Converters.Converters;
 
 import java.util.Date;
 
@@ -26,6 +28,7 @@ import static androidx.room.ForeignKey.CASCADE;
                 @Index(value = {"tractoraId"}, unique = true),
                 @Index(value = {"cisternaId"}, unique = true)}
 )
+@TypeConverters(Converters.class)
 public class TaccamiEntity {
 
     @PrimaryKey(autoGenerate = true)
@@ -35,10 +38,17 @@ public class TaccamiEntity {
     public int cisternaId;
     public int tara;
     public int pesoMaximo;
-    public Date fec_baja = new Date();
+    public Date fec_baja;
 
-
-
+    public TaccamiEntity(int cod_vehiculo, int tractoraId, int cisternaId, int tara, int pesoMaximo, Date fec_baja) {
+        this.cod_vehiculo = cod_vehiculo;
+        this.tractoraId = tractoraId;
+        this.cisternaId = cisternaId;
+        this.tara = tara;
+        this.pesoMaximo = pesoMaximo;
+        this.fec_baja = new Date();
+        this.fec_baja = fec_baja;
+    }
 
     public int getId() {
         return id;

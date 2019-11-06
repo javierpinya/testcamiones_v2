@@ -22,13 +22,36 @@ public class TaccamiViewModel extends AndroidViewModel {
         taccamiRepository = new TaccamiRepository(application);
     }
 
+    public LiveData<List<TaccamiEntity>> findTaccamiByCodVehiculo(int cod_vehiculo){
+        return taccamiRepository.findTaccamiByCodVehiculo(cod_vehiculo);
+    }
 
-    public LiveData<List<TaccamiEntity>> getAllVehiculos(){
-        return taccamiRepository.encuentraVehiculos();
+    public LiveData<List<TaccamiEntity>> findTaccamiByTMatricula(String matricula){
+        return taccamiRepository.findTaccamiByTMatricula(matricula);
+    }
+
+    public LiveData<List<TaccamiEntity>> findTaccamiByCMatricula(String matricula){
+        return taccamiRepository.findTaccamiByCMatricula(matricula);
+    }
+
+    public LiveData<List<TaccamiEntity>> findAllVehiculos(){
+        return taccamiRepository.findAllTaccami();
     }
 
     public void insertarVehiculo(TaccamiEntity taccamiEntity){
-        taccamiRepository.insert(taccamiEntity);
+        taccamiRepository.insertTaccami(taccamiEntity);
+    }
+
+    public void updateVehiculo(TaccamiEntity taccamiEntity){
+        taccamiRepository.updateTaccamiById(taccamiEntity);
+    }
+
+    public void deleteTaccamiById(TaccamiEntity taccamiEntity){
+        taccamiRepository.deleteTaccamiById(taccamiEntity);
+    }
+
+    public void deleteAllTaccami(){
+        taccamiRepository.deleteAllTaccami();
     }
 
 

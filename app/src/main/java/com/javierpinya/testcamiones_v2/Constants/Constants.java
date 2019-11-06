@@ -9,6 +9,7 @@ public class Constants {
     public static final String NAME_TABLE_TACCAMI = "taccami";
     public static final String NAME_TABLE_INSPECCION = "inspeccion";
     public static final String NAME_TABLE_TACCOND = "taccond";
+    public static final String NAME_TABLE_TPLCPRT = "tplcprt";
 
     public static final String NAME_DATABASE = "AppDatabase";
 }

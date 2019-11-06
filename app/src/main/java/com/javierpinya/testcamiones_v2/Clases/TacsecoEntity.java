@@ -3,14 +3,17 @@ package com.javierpinya.testcamiones_v2.Clases;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 
 import com.javierpinya.testcamiones_v2.Constants.Constants;
+import com.javierpinya.testcamiones_v2.Converters.Converters;
 
 import java.util.Date;
 
 @Entity(tableName = Constants.NAME_TABLE_TACSECO,
         indices = {@Index(value = {"id"}, unique = true)})
+@TypeConverters(Converters.class)
 public class TacsecoEntity {
     @PrimaryKey(autoGenerate = true)
     public int id;
@@ -29,6 +32,28 @@ public class TacsecoEntity {
     public boolean solo_gasoleos=false;
     public boolean ind_bloqueo = false;
     public boolean ind_queroseno = false;
+
+    public TacsecoEntity(String matricula, Date fec_cadu_itv, Date fec_cadu_adr, int tara, int peso_maximo, int chip, String tipo, Date fec_cadu_calibracion, int num_ejes, boolean ind_carga_pesados, Date fec_baja, String cod_nacion, boolean solo_gasoleos, boolean ind_bloqueo, boolean ind_queroseno) {
+        this.matricula = matricula;
+        this.fec_cadu_itv = new Date();
+        this.fec_cadu_adr = new Date();
+        this.fec_cadu_calibracion = new Date();
+        this.fec_baja = new Date();
+        this.fec_cadu_itv = fec_cadu_itv;
+        this.fec_cadu_adr = fec_cadu_adr;
+        this.tara = tara;
+        this.peso_maximo = peso_maximo;
+        this.chip = chip;
+        this.tipo = tipo;
+        this.fec_cadu_calibracion = fec_cadu_calibracion;
+        this.num_ejes = num_ejes;
+        this.ind_carga_pesados = ind_carga_pesados;
+        this.fec_baja = fec_baja;
+        this.cod_nacion = cod_nacion;
+        this.solo_gasoleos = solo_gasoleos;
+        this.ind_bloqueo = ind_bloqueo;
+        this.ind_queroseno = ind_queroseno;
+    }
 
     public int getId() {
         return id;

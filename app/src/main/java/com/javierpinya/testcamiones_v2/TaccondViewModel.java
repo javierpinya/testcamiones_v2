@@ -28,6 +28,22 @@ public class TaccondViewModel extends AndroidViewModel {
         return taccondRepository.findAllTaccond();
     }
 
+    public LiveData<List<TaccondEntity>> findTaccondByDni(String dni){
+        return taccondRepository.findTaccondByDni(dni);
+    }
+
+    public LiveData<List<TaccondEntity>> findTaccondByApellidos(String apellidos){
+        return taccondRepository.findTaccondByApellidos(apellidos);
+    }
+
+    public LiveData<List<TaccondEntity>> findTaccondByNombre(String nombre){
+        return taccondRepository.findTaccondByNombre(nombre);
+    }
+
+    public TaccondEntity findTaccondById(int id){
+        return taccondRepository.findTaccondById(id);
+    }
+
     public void insertTaccond(TaccondEntity taccond){
         taccondRepository.insertTaccond(taccond);
     }
@@ -37,7 +53,7 @@ public class TaccondViewModel extends AndroidViewModel {
     }
 
     public void deleteTaccond(TaccondEntity taccond){
-        taccondRepository.deleteTaccond(taccond);
+        taccondRepository.deleteTaccondById(taccond);
     }
 
     public void deleteAllTaccond(){

@@ -28,4 +28,10 @@ public interface TacsecoDao {
 
     @Query("SELECT * FROM tacseco WHERE id LIKE :id")
     TacsecoEntity findTacsecoById(int id);
+
+    @Query("SELECT * FROM tacseco")
+    LiveData<List<TacsecoEntity>> getAllTacseco();
+
+    @Query("DELETE FROM tacseco")
+    void deleteAllTacseco();
 }

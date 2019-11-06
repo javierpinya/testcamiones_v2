@@ -66,4 +66,8 @@ public class InspeccionViewModel extends AndroidViewModel {
     public void borrarInspeccion(InspeccionEntity inspeccionEntity){
         inspeccionRepository.deleteInspeccionById(inspeccionEntity);
     }
+
+    public void updateInspeccionById(InspeccionEntity inspeccionEntity){
+        inspeccionRepository.updateInspeccionById(inspeccionEntity);
+    }
 }
