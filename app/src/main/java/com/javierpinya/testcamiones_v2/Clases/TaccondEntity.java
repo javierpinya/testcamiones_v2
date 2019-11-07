@@ -3,12 +3,15 @@ package com.javierpinya.testcamiones_v2.Clases;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 import com.javierpinya.testcamiones_v2.Constants.Constants;
+import com.javierpinya.testcamiones_v2.Converters.Converters;
 
 import java.util.Date;
 
 @Entity(tableName = Constants.NAME_TABLE_TACCOND)
+@TypeConverters(Converters.class)
 public class TaccondEntity {
     @PrimaryKey(autoGenerate = true)
     public int id;
@@ -24,6 +27,24 @@ public class TaccondEntity {
     public Date fec_fin_bloqueo;
     public String tipo_autorizacion;
     public String ind_empleado;
+
+    public TaccondEntity(String cod_conductor, String id_tipo_documento, String dni, String nombre, String apellidos, Date fec_cadu_perm_conduccion, Date fec_cadu_adr, Date fec_inic_bloqueo, Date fec_fin_bloqueo, String tipo_autorizacion, String ind_empleado) {
+        this.cod_conductor = cod_conductor;
+        this.id_tipo_documento = id_tipo_documento;
+        this.dni = dni;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.fec_cadu_perm_conduccion = new Date();
+        this.fec_cadu_adr = new Date();
+        this.fec_inic_bloqueo = new Date();
+        this.fec_fin_bloqueo = new Date();
+        this.fec_cadu_perm_conduccion = fec_cadu_perm_conduccion;
+        this.fec_cadu_adr = fec_cadu_adr;
+        this.fec_inic_bloqueo = fec_inic_bloqueo;
+        this.fec_fin_bloqueo = fec_fin_bloqueo;
+        this.tipo_autorizacion = tipo_autorizacion;
+        this.ind_empleado = ind_empleado;
+    }
 
     public int getId() {
         return id;

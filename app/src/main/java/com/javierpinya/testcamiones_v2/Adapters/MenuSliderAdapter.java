@@ -9,9 +9,9 @@ import com.javierpinya.testcamiones_v2.ui.PerfilFragment;
 import com.javierpinya.testcamiones_v2.ui.SincronizarFragment;
 
 
-public class SliderAdapter extends FragmentPagerAdapter{
+public class MenuSliderAdapter extends FragmentPagerAdapter{
 
-    public SliderAdapter(FragmentManager fm) {
+    public MenuSliderAdapter(FragmentManager fm) {
         super(fm);
     }
 

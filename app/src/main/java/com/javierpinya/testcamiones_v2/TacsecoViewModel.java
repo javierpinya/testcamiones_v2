@@ -25,6 +25,26 @@ public class TacsecoViewModel extends AndroidViewModel {
         return tacsecoRepository.findTacsecoByMatricula(matricula);
     }
 
+    public LiveData<List<TacsecoEntity>> getAllTacseco(){
+        return tacsecoRepository.getAllTacseco();
+    }
+
+    public void updateTacsecoById(TacsecoEntity tacsecoEntity){
+        tacsecoRepository.updateTacsecoById(tacsecoEntity);
+    }
+
+    public void insertTacseco(TacsecoEntity tacsecoEntity){
+        tacsecoRepository.insertTacseco(tacsecoEntity);
+    }
+
+    public void deleteTacseco(TacsecoEntity tacsecoEntity){
+        tacsecoRepository.deleteTacsecoById(tacsecoEntity);
+    }
+
+    public void deleteAllTacseco(){
+        tacsecoRepository.deleteAllTacseco();
+    }
+
 
 
 }

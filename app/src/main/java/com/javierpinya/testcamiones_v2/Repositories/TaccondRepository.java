@@ -28,6 +28,22 @@ public class TaccondRepository {
         return taccondDao.findAllTaccond();
     }
 
+    public LiveData<List<TaccondEntity>> findTaccondByDni(String dni){
+        return taccondDao.findTaccondByDni(dni);
+    }
+
+    public LiveData<List<TaccondEntity>> findTaccondByApellidos(String apellidos){
+        return taccondDao.findTaccondByApellidos(apellidos);
+    }
+
+    public LiveData<List<TaccondEntity>> findTaccondByNombre(String nombre){
+        return taccondDao.findTaccondByNombre(nombre);
+    }
+
+    public TaccondEntity findTaccondById(int id){
+        return taccondDao.findTaccondById(id);
+    }
+
     public void insertTaccond(TaccondEntity taccond){
         new insertAsyncTask(taccondDao).execute(taccond);
     }
@@ -63,7 +79,7 @@ public class TaccondRepository {
         }
     }
 
-    public void deleteTaccond(TaccondEntity taccond){
+    public void deleteTaccondById(TaccondEntity taccond){
         new deleteAsyncTask(taccondDao).execute(taccond);
     }
 

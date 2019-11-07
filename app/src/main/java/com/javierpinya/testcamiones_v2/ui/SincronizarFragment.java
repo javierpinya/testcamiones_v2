@@ -32,7 +32,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -54,6 +58,10 @@ public class SincronizarFragment extends Fragment {
     private final List<String> content = new ArrayList<>();
     private final String path = "/storage/emulated/0/Download/TestCamiones/";
     private TacprcoEntity tacprcoEntity;
+    private Date date = new Date();
+    private final DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+    private SimpleDateFormat parseador = new SimpleDateFormat("dd/MM/yyyy");
+
 
 
     public SincronizarFragment() {
@@ -75,8 +83,11 @@ public class SincronizarFragment extends Fragment {
         btnLeerBD = view.findViewById(R.id.btnLeerBD);
         etTexto = view.findViewById(R.id.etHelpSync);
 
+
+
+
         final NuevoUsuarioDialogViewModel mViewModel = ViewModelProviders.of(getActivity()).get(NuevoUsuarioDialogViewModel.class);
-        mViewModel.insertarUsuario(new UsuarioEntity("juan", "juan"));
+        //mViewModel.insertarUsuario(new UsuarioEntity("juan", "juan"));
 
         for (int i=0;i<10;i++){
             content.add("E24" + i + "4JNZ,1800" + i + ",2400" + i + "\n");
@@ -117,7 +128,7 @@ public class SincronizarFragment extends Fragment {
                     @Override
                     public void onChanged(List<TacprcoEntity> tacprcoEntities) {
                         for (int i=0;i<tacprcoEntities.size();i++){
-                            Log.d("TACPRCO: ", tacprcoEntities.get(i).getMatricula() + " " + tacprcoEntities.get(i).getTara() + " " + tacprcoEntities.get(i).getChip());
+                            Log.d("TACPRCO: ", tacprcoEntities.get(i).getMatricula() + " " + tacprcoEntities.get(i).getTara() + " " + tacprcoEntities.get(i).getChip() + " " + df.format(tacprcoEntities.get(i).getFec_cadu_adr()));
                         }
                     }
                 });
@@ -152,7 +163,14 @@ public class SincronizarFragment extends Fragment {
             CSVReader reader = new CSVReader(new FileReader(file));
             String[] nextLine;
             while ((nextLine = reader.readNext()) != null) {
-                tacprcoViewModel.insertTacprco(new TacprcoEntity(nextLine[0], Integer.valueOf(nextLine[1]), Integer.valueOf(nextLine[2]),121212,"T","E"));
+                /*
+                try {
+                    tacprcoViewModel.insertTacprco(new TacprcoEntity(nextLine[0], Integer.valueOf(nextLine[1]), Integer.valueOf(nextLine[2]),121212,"T","E", parseador.parse("03/03/2019")));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                 */
                 //Log.e("Datossssss: ", "" + nextLine[0] + " - " + nextLine[1] + " - " + nextLine[2]);
             }
 

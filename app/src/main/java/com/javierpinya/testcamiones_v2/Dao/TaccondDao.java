@@ -23,13 +23,25 @@ public interface TaccondDao {
     @Delete
     void deleteTaccondById(TaccondEntity taccond);
 
-    @Query("Delete from taccond")
-    void deleteAllTaccond();
-
-    @Query("select * from taccond")
+    @Query("SELECT * FROM taccond")
     LiveData<List<TaccondEntity>> findAllTaccond();
 
-    @Query("Select * from taccond where conductor like :conductor")
+    @Query("SELECT * FROM taccond WHERE conductor LIKE :conductor")
     LiveData<List<TaccondEntity>> findTaccondByConductor(String conductor);
+
+    @Query("SELECT * FROM taccond WHERE dni LIKE :dni")
+    LiveData<List<TaccondEntity>> findTaccondByDni(String dni);
+
+    @Query("SELECT * FROM taccond WHERE apellidos LIKE :apellidos")
+    LiveData<List<TaccondEntity>> findTaccondByApellidos(String apellidos);
+
+    @Query("SELECT * FROM taccond WHERE nombre LIKE :nombre")
+    LiveData<List<TaccondEntity>> findTaccondByNombre(String nombre);
+
+    @Query("SELECT * FROM taccond WHERE id LIKE :id")
+    TaccondEntity findTaccondById(int id);
+
+    @Query("DELETE FROM taccond")
+    void deleteAllTaccond();
 
 }
