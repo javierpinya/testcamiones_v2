@@ -20,11 +20,18 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.javierpinya.testcamiones_v2.Clases.TaccamiEntity;
 import com.javierpinya.testcamiones_v2.Clases.TacprcoEntity;
+import com.javierpinya.testcamiones_v2.Clases.TacsecoEntity;
 import com.javierpinya.testcamiones_v2.Clases.UsuarioEntity;
 import com.javierpinya.testcamiones_v2.NuevoUsuarioDialogViewModel;
 import com.javierpinya.testcamiones_v2.R;
+import com.javierpinya.testcamiones_v2.TaccamiViewModel;
+import com.javierpinya.testcamiones_v2.TaccatrViewModel;
+import com.javierpinya.testcamiones_v2.TaccondViewModel;
 import com.javierpinya.testcamiones_v2.TacprcoViewModel;
+import com.javierpinya.testcamiones_v2.TacsecoViewModel;
+import com.javierpinya.testcamiones_v2.TplcprtViewModel;
 import com.opencsv.CSVReader;
 
 import java.io.File;
@@ -45,10 +52,17 @@ import java.util.List;
 public class SincronizarFragment extends Fragment {
 
     private static final int READ_REQUEST_CODE = 1000;
+    private int tacprcoid;
+    private String matricula_archivo="";
     private Button btnSincronizar;
     private Button btnLeerBD;
     private EditText etTexto;
     private TacprcoViewModel tacprcoViewModel;
+    private TacsecoViewModel tacsecoViewModel;
+    private TaccamiViewModel taccamiViewModel;
+    private TaccatrViewModel taccatrViewModel;
+    private TaccondViewModel taccondViewModel;
+    private TplcprtViewModel tplcprtViewModel;
     private NuevoUsuarioDialogViewModel mViewModel;
     private List<TacprcoEntity> tractoras = new ArrayList<>();
     private List<UsuarioEntity> usuarios = new ArrayList<>();
@@ -82,7 +96,7 @@ public class SincronizarFragment extends Fragment {
         btnSincronizar = view.findViewById(R.id.btnSync);
         btnLeerBD = view.findViewById(R.id.btnLeerBD);
         etTexto = view.findViewById(R.id.etHelpSync);
-
+        lanzarViewModel();
 
 
 
@@ -99,9 +113,44 @@ public class SincronizarFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                lanzarViewModel();
+
                 tacprcoViewModel.deleteAllTacprco();
-                leerArchivo();
+                //leerArchivo();
+
+                //Creamos los datos
+                for (int i = 0; i < 10; i++) {
+                    try {
+                        tacprcoViewModel.insertTacprco(new TacprcoEntity("E000" + i + "AAA", parseador.parse("20/10/2020"), parseador.parse("20/10/2020"), 7210 + i, 21000, 90000 + i, "T", parseador.parse("20/10/2060"), "E", false, false, false));
+                        tacsecoViewModel.insertTacseco(new TacsecoEntity("E000" + i + "BBB", parseador.parse("20/10/2020"), parseador.parse("20/10/2020"), 521 + i, 18000, 80000 + i, "R", parseador.parse("20/10/2060"), 3, false, parseador.parse("20/10/2060"), "E", false, false, false));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+                //recorrer archivo y guardar la matrícula en una variable
+                //i=0;
+                //while (nextline...){
+                    /*
+
+                    tacprcoViewModel.findTacprcoByMatricula(matricula_archivo).observe(getActivity(), new Observer<List<TacprcoEntity>>() {
+                        @Override
+                        public void onChanged(List<TacprcoEntity> tacprcoEntities) {
+                            tacprcoid = tacprcoEntities.get(0).getId();
+                        }
+                    });
+
+                    tacsecoViewModel.findTacsecoByMatricula(matricula_archivo).observe(getActivity(), new Observer<List<TacsecoEntity>>() {
+                        @Override
+                        public void onChanged(List<TacsecoEntity> tacsecoEntities) {
+                            tacsecoid = tacsecoEntities.get(0).getId();
+                        }
+                    });
+
+                    taccamiViewModel.insertarVehiculo(new TaccamiEntity(1, tacprcoid, tacsecoId, ));
+                    i+=1
+                */
+                //}
 
 
                 //
@@ -150,6 +199,11 @@ public class SincronizarFragment extends Fragment {
         });
 
         tacprcoViewModel = ViewModelProviders.of(getActivity()).get(TacprcoViewModel.class);
+        tacsecoViewModel = ViewModelProviders.of(getActivity()).get(TacsecoViewModel.class);
+        taccamiViewModel = ViewModelProviders.of(getActivity()).get(TaccamiViewModel.class);
+        taccatrViewModel = ViewModelProviders.of(getActivity()).get(TaccatrViewModel.class);
+        taccondViewModel = ViewModelProviders.of(getActivity()).get(TaccondViewModel.class);
+        tplcprtViewModel = ViewModelProviders.of(getActivity()).get(TplcprtViewModel.class);
     }
 
     // Read content of the file
