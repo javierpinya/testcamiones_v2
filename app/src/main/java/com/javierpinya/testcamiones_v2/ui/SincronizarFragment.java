@@ -4,7 +4,6 @@ package com.javierpinya.testcamiones_v2.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -53,9 +52,11 @@ public class SincronizarFragment extends Fragment {
 
     private static final int READ_REQUEST_CODE = 1000;
     private int tacprcoid;
+    private int tacsecoid;
     private String matricula_archivo="";
     private Button btnSincronizar;
     private Button btnLeerBD;
+    private Button btnGuardarVehiculo;
     private EditText etTexto;
     private TacprcoViewModel tacprcoViewModel;
     private TacsecoViewModel tacsecoViewModel;
@@ -69,7 +70,8 @@ public class SincronizarFragment extends Fragment {
     private List<String> matricula = new ArrayList<>();
     private List<Integer> tara = new ArrayList<>();
     private final String filename = "prueba_testcamiones2";
-    private final List<String> content = new ArrayList<>();
+    private final List<String> contentTacprco = new ArrayList<>();
+    private final List<String> contentTacseco = new ArrayList<>();
     private final String path = "/storage/emulated/0/Download/TestCamiones/";
     private TacprcoEntity tacprcoEntity;
     private Date date = new Date();
@@ -95,6 +97,7 @@ public class SincronizarFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_sincronizar, container, false);
         btnSincronizar = view.findViewById(R.id.btnSync);
         btnLeerBD = view.findViewById(R.id.btnLeerBD);
+        btnGuardarVehiculo = view.findViewById(R.id.btnGuardarVehiculo);
         etTexto = view.findViewById(R.id.etHelpSync);
         lanzarViewModel();
 
@@ -103,10 +106,16 @@ public class SincronizarFragment extends Fragment {
         final NuevoUsuarioDialogViewModel mViewModel = ViewModelProviders.of(getActivity()).get(NuevoUsuarioDialogViewModel.class);
         //mViewModel.insertarUsuario(new UsuarioEntity("juan", "juan"));
 
-        for (int i=0;i<10;i++){
-            content.add("E24" + i + "4JNZ,1800" + i + ",2400" + i + "\n");
+        for (int i=0;i<100;i++){
+            try {
+                contentTacprco.add("E000" + i + "AAA, 20/10/2020, 20/10/2020, 7210" + i + ", 21000, 90000" + i + ", T, 20/10/2060, E, 0, N, N");
+                contentTacseco.add("E000" + i + "BBB, 20/10/2020, 20/10/2020, 5210" + i + ", 18000, 80000" + i + ", R, 20/10/2060, 3, 0, 20/10/2060, E, N, N, N");
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
-        saveTextAsFile(filename,content);
+        saveTextAsFile(filename, contentTacprco);
+        saveTextAsFile("Tacseco", contentTacseco);
 
 
         btnSincronizar.setOnClickListener(new View.OnClickListener() {
@@ -115,8 +124,13 @@ public class SincronizarFragment extends Fragment {
 
 
                 tacprcoViewModel.deleteAllTacprco();
-                //leerArchivo();
+                tacsecoViewModel.deleteAllTacseco();
+                taccamiViewModel.deleteAllTaccami();
 
+                leerTacprco();
+                leerTacseco();
+
+                /*
                 //Creamos los datos
                 for (int i = 0; i < 10; i++) {
                     try {
@@ -127,43 +141,14 @@ public class SincronizarFragment extends Fragment {
                     }
                 }
 
+                 */
+            }
+        });
 
-                //recorrer archivo y guardar la matrícula en una variable
-                //i=0;
-                //while (nextline...){
-                    /*
-
-                    tacprcoViewModel.findTacprcoByMatricula(matricula_archivo).observe(getActivity(), new Observer<List<TacprcoEntity>>() {
-                        @Override
-                        public void onChanged(List<TacprcoEntity> tacprcoEntities) {
-                            tacprcoid = tacprcoEntities.get(0).getId();
-                        }
-                    });
-
-                    tacsecoViewModel.findTacsecoByMatricula(matricula_archivo).observe(getActivity(), new Observer<List<TacsecoEntity>>() {
-                        @Override
-                        public void onChanged(List<TacsecoEntity> tacsecoEntities) {
-                            tacsecoid = tacsecoEntities.get(0).getId();
-                        }
-                    });
-
-                    taccamiViewModel.insertarVehiculo(new TaccamiEntity(1, tacprcoid, tacsecoId, ));
-                    i+=1
-                */
-                //}
-
-
-                //
-               // NuevoUsuarioDialogViewModel mViewModel = ViewModelProviders.of(getActivity()).get(NuevoUsuarioDialogViewModel.class);
-               // mViewModel.insertarUsuario(new UsuarioEntity("juan", "juan"));
-
-               // TacprcoViewModel tacprcoViewModel = ViewModelProviders.of(getActivity()).get(TacprcoViewModel.class);
-               // tacprcoViewModel.insertTacprco(new TacprcoEntity("E2474JNZ", 5210, 18000,121212,"T","E"));
-                //tacprcoViewModel.insertTacprco(new TacprcoEntity("E2400AAA", 5310, 18000,121213,"T","E"));
-                //tacprcoViewModel.insertTacprco(new TacprcoEntity("E2401BBB", 5410, 18000,121214,"T","E"));
-
-                //performFileSearch();
-
+        btnGuardarVehiculo.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                guardarVehiculo();
             }
         });
 
@@ -178,6 +163,24 @@ public class SincronizarFragment extends Fragment {
                     public void onChanged(List<TacprcoEntity> tacprcoEntities) {
                         for (int i=0;i<tacprcoEntities.size();i++){
                             Log.d("TACPRCO: ", tacprcoEntities.get(i).getMatricula() + " " + tacprcoEntities.get(i).getTara() + " " + tacprcoEntities.get(i).getChip() + " " + df.format(tacprcoEntities.get(i).getFec_cadu_adr()));
+                        }
+                    }
+                });
+
+                tacsecoViewModel.getAllTacseco().observe(getActivity(), new Observer<List<TacsecoEntity>>() {
+                    @Override
+                    public void onChanged(List<TacsecoEntity> tacsecoEntities) {
+                        for (int i=0;i<tacsecoEntities.size();i++){
+                            Log.d("TACSECO: ", tacsecoEntities.get(i).getMatricula() + " " + tacsecoEntities.get(i).getTara() + " " + tacsecoEntities.get(i).getChip() + " " + df.format(tacsecoEntities.get(i).getFec_cadu_adr()));
+                        }
+                    }
+                });
+
+                taccamiViewModel.findAllVehiculos().observe(getActivity(), new Observer<List<TaccamiEntity>>() {
+                    @Override
+                    public void onChanged(List<TaccamiEntity> taccamiEntities) {
+                        for (int i=0;i<taccamiEntities.size();i++){
+                            Log.d("TACCAMI: ", taccamiEntities.get(i).getCod_vehiculo() + " - CisternaID: " + taccamiEntities.get(i).getCisternaId() + " - TractoraId: " + taccamiEntities.get(i).getTractoraId());
                         }
                     }
                 });
@@ -206,32 +209,120 @@ public class SincronizarFragment extends Fragment {
         tplcprtViewModel = ViewModelProviders.of(getActivity()).get(TplcprtViewModel.class);
     }
 
-    // Read content of the file
-    private void leerArchivo(){
+    private void guardarVehiculo(){
+        try{
+            tacprcoViewModel.findTacprcoByMatricula(matricula_archivo).observe(getActivity(), new Observer<List<TacprcoEntity>>() {
+                @Override
+                public void onChanged(List<TacprcoEntity> tacprcoEntities) {
+                    tacprcoid = tacprcoEntities.get(0).getId();
+                }
+            });
 
-        File file = new File(getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), filename + ".csv");
-        //TacprcoViewModel tacprcoViewModel = ViewModelProviders.of(getActivity()).get(TacprcoViewModel.class);
+            tacsecoViewModel.findTacsecoByMatricula(matricula_archivo).observe(getActivity(), new Observer<List<TacsecoEntity>>() {
+                @Override
+                public void onChanged(List<TacsecoEntity> tacsecoEntities) {
+                    tacsecoid = tacsecoEntities.get(0).getId();
+                }
+            });
 
+            taccamiViewModel.insertarVehiculo(new TaccamiEntity(1, tacprcoid, tacsecoid, 13000, 40000, null));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    // Read contentTacprco of the file
+    private void leerTacprco(){
+        String filename = "tacprco.csv";
+        boolean gas = false;
+        boolean blo = false;
+        boolean que = false;
+
+        File file = new File(getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), filename);
 
         try {
             CSVReader reader = new CSVReader(new FileReader(file));
             String[] nextLine;
             while ((nextLine = reader.readNext()) != null) {
-                /*
+
+                if(nextLine[9] == "N" || nextLine[9] == "0"){
+                    gas = false;
+                }else{
+                    gas = true;
+                }
+
+                if(nextLine[10] == "N" || nextLine[10] == "0"){
+                    blo = false;
+                }else{
+                    blo = true;
+                }
+
+                if(nextLine[11] == "N" || nextLine[11] == "0"){
+                    que = false;
+                }else{
+                    que = true;
+                }
+
                 try {
-                    tacprcoViewModel.insertTacprco(new TacprcoEntity(nextLine[0], Integer.valueOf(nextLine[1]), Integer.valueOf(nextLine[2]),121212,"T","E", parseador.parse("03/03/2019")));
+                    tacprcoViewModel.insertTacprco(new TacprcoEntity(nextLine[0], parseador.parse(nextLine[1]), parseador.parse(nextLine[2]),Integer.valueOf(nextLine[3]),Integer.valueOf(nextLine[4]),Integer.valueOf(nextLine[5]), nextLine[6], parseador.parse(nextLine[7]), nextLine[8], gas, blo, que));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-
-                 */
-                //Log.e("Datossssss: ", "" + nextLine[0] + " - " + nextLine[1] + " - " + nextLine[2]);
             }
 
         }catch (IOException e){
             e.printStackTrace();
         }
 
+    }
+
+    private void leerTacseco(){
+        String filename = "tacprco.csv";
+        boolean pes = false;
+        boolean gas = false;
+        boolean blo = false;
+        boolean que = false;
+
+        File file = new File(getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), filename);
+
+        try {
+            CSVReader reader = new CSVReader(new FileReader(file));
+            String[] nextLine;
+            while ((nextLine = reader.readNext()) != null) {
+
+                if (nextLine[10] == "N" || nextLine[10] == "0" || nextLine[10] == "") {
+                    pes = false;
+                } else {
+                    pes = true;
+                }
+
+                if (nextLine[13] == "N" || nextLine[13] == "0" || nextLine[13] == "") {
+                    gas = false;
+                } else {
+                    gas = true;
+                }
+
+                if (nextLine[14] == "N" || nextLine[14] == "0" || nextLine[14] == "") {
+                    blo = false;
+                } else {
+                    blo = true;
+                }
+
+                if (nextLine[15] == "N" || nextLine[15] == "0" || nextLine[15] == "")
+                    que = false;
+                else{
+                    que = true;
+                }
+                try {
+                    tacsecoViewModel.insertTacseco(new TacsecoEntity(nextLine[0], parseador.parse(nextLine[1]), parseador.parse(nextLine[2]), Integer.valueOf(nextLine[3]), Integer.valueOf(nextLine[4]), Integer.valueOf(nextLine[5]), nextLine[6], parseador.parse(nextLine[7]), Integer.valueOf(nextLine[8]), pes, parseador.parse(nextLine[10]), nextLine[11], gas, blo, que));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     //Select file from storate
@@ -260,18 +351,6 @@ public class SincronizarFragment extends Fragment {
         String fileName = filename + ".csv";
         File file;
         file = new File(getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName);
-
-       /*
-        //Create file
-        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
-            file = new File(getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName);
-
-        }else {
-            //file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
-            file = new File(getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName);
-        }
-
-        */
 
         //Write file
         try {
