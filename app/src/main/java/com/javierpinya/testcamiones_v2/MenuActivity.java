@@ -37,7 +37,6 @@ public class MenuActivity extends AppCompatActivity {
         adapter = new MenuSliderAdapter(getSupportFragmentManager());
         vpPager.setAdapter(adapter);
         vpPager.setPageTransformer(true, new CubeOutTransformer());
-
     }
 
 }

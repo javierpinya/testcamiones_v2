@@ -20,6 +20,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.javierpinya.testcamiones_v2.Clases.TaccamiEntity;
+import com.javierpinya.testcamiones_v2.Clases.TaccatrEntity;
 import com.javierpinya.testcamiones_v2.Clases.TacprcoEntity;
 import com.javierpinya.testcamiones_v2.Clases.TacsecoEntity;
 import com.javierpinya.testcamiones_v2.Clases.UsuarioEntity;
@@ -149,6 +150,7 @@ public class SincronizarFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 guardarVehiculo();
+                guardarTaccatr();
             }
         });
 
@@ -230,6 +232,17 @@ public class SincronizarFragment extends Fragment {
             e.printStackTrace();
         }
 
+    }
+
+    private void guardarTaccatr(){
+        for(int i=0;i<10;i++) {
+            try {
+                taccatrViewModel.insertTaccatr(new TaccatrEntity(i, "000"+i, "123", null));
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     // Read contentTacprco of the file
