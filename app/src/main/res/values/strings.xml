@@ -257,6 +257,7 @@
     <string name="action_settings">Settings</string>
     <string name="cabezatractora">Cabeza tractora</string>
     <string name="adduser">AddUser</string>
+    <string name="Conductor">conductor</string>
 
 
 </resources>

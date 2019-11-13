@@ -78,6 +78,8 @@ public class BuscarVehiculoFragment extends Fragment {
         final List<Integer> cod_vehiculo1 = new ArrayList<>();
         final List<Integer> cod_vehiculo2 = new ArrayList<>();
         final List<Integer> listaEquivalente = new ArrayList<>();
+        final List<Integer> tractoras = new ArrayList<>();
+        final List<Integer> cisternas = new ArrayList<>();
 
         if (primer.length()>0) {
             taccamiViewModel.findTaccamiByTMatricula(primer).observe(getActivity(), new Observer<List<TaccamiEntity>>() {
@@ -116,6 +118,17 @@ public class BuscarVehiculoFragment extends Fragment {
                 listaEquivalente.add(cod_vehiculo2.get(i));
             }
         }
+
+        for(int i=0;i<listaEquivalente.size();i++) {
+            taccamiViewModel.findTaccamiByCodVehiculo(listaEquivalente.get(i)).observe(getActivity(), new Observer<List<TaccamiEntity>>() {
+                @Override
+                public void onChanged(List<TaccamiEntity> taccamiEntities) {
+                    tractoras.add(taccamiEntities.get(0).getTractoraId());
+                    cisternas.add(taccamiEntities.get(0).getCisternaId());
+                }
+            });
+        }
+
 
 
 

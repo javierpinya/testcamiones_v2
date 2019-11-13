@@ -47,6 +47,7 @@ public class TacprcoRepository {
             asyncTaskDao.updateTacprcoById(tacprcoEntities[0]);
             return null;
         }
+
     }
 
     public void insertTacprco(TacprcoEntity tacprco){
