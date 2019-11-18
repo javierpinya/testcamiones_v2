@@ -1,6 +1,7 @@
 package com.javierpinya.testcamiones_v2.Adapters;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -9,90 +10,118 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.javierpinya.testcamiones_v2.Clases.TaccamiEntity;
 import com.javierpinya.testcamiones_v2.R;
 
 import java.util.List;
 
-public class ListaBuscarVehiculoRecyclerViewAdapter extends RecyclerView.Adapter<ListaBuscarVehiculoRecyclerViewAdapter.ViewHolder> {
+public class ListaBuscarVehiculoRecyclerViewAdapter extends RecyclerView.Adapter<ListaBuscarVehiculoRecyclerViewAdapter.BuscarVehiculo_Holder>{
 
-    private List<String> mTractoras;
-    private List<String> mCisternas;
-    private List<Boolean> bloqueoTractoras;
-    private List<Boolean> bloqueoCisternas;
-    private Context ctx;
+    private List<String> tractoras;
+    private List<String> cisternas;
+    private List<Integer> bloqueoTractoras;
+    private List<Integer> bloqueoCisternas;
+    private OnItemClickListener itemClickListener;
 
-    public ListaBuscarVehiculoRecyclerViewAdapter(List<String> mTractoras, List<String> mCisternas, List<Boolean> bloqueoTractora, List<Boolean> bloqueoCisterna, Context ctx){
-        this.mTractoras = mTractoras;
-        this.mCisternas = mCisternas;
-        this.bloqueoCisternas = bloqueoCisterna;
-        this.bloqueoTractoras = bloqueoTractora;
-        this.ctx = ctx;
+    public ListaBuscarVehiculoRecyclerViewAdapter(List<String> tractoras, List<String> cisternas, List<Integer> bloqueoTractoras, List<Integer> bloqueoCisternas, OnItemClickListener listener){
+        this.tractoras = tractoras;
+        this.cisternas = cisternas;
+        this.bloqueoCisternas = bloqueoCisternas;
+        this.bloqueoTractoras = bloqueoTractoras;
+        this.itemClickListener = listener;
     }
 
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+    public ListaBuscarVehiculoRecyclerViewAdapter.BuscarVehiculo_Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View mView = LayoutInflater.from(parent.getContext()).inflate(R.layout.listview_resultado_buscar_vehiculos, parent, false);
+        RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        mView.setLayoutParams(layoutParams);
+        return new BuscarVehiculo_Holder(mView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.tractora.setText(mTractoras.get(position));
+    public void onBindViewHolder(@NonNull BuscarVehiculo_Holder holder, int position) {
+        String tractora;
+        String cisterna;
+        int bloqueoTractora;
+        int bloqueoCisterna;
 
-        if (mCisternas.get(position) != null){
-            holder.cisterna.setText(mCisternas.get(position));
-        }else{
-            holder.cisterna.setText("-");
-        }
+        tractora = tractoras.get(position);
+        cisterna = cisternas.get(position);
+        bloqueoTractora = bloqueoTractoras.get(position);
+        bloqueoCisterna = bloqueoCisternas.get(position);
 
-        if(bloqueoCisternas.get(position) == true){
-            holder.bloqueoCisterna.setImageResource(R.drawable.ic_ban);
-        }else if(bloqueoCisternas.get(position) == false){
-            holder.bloqueoCisterna.setImageResource(R.drawable.ic_checked);
-        }else {
-            holder.bloqueoCisterna.setImageResource(R.color.icons2);
-        }
-
-        if(bloqueoTractoras.get(position) == true){
-            holder.bloqueoTractora.setImageResource(R.drawable.ic_ban);
-        }else if(bloqueoTractoras.get(position) == false){
-            holder.bloqueoTractora.setImageResource(R.drawable.ic_checked);
-        }else{
-            holder.bloqueoTractora.setImageResource(R.color.icons2);
-        }
-        holder.mView.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                if (null != v){
-
-                }
-            }
-        });
+        holder.bind(tractora, cisterna, bloqueoTractora, bloqueoCisterna, itemClickListener);
 
     }
 
     @Override
     public int getItemCount() {
-        return mTractoras.size();
+        return tractoras.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
-        public View mView;
-        public final TextView tractora;
-        public final TextView cisterna;
-        public final ImageView bloqueoCisterna;
-        public final ImageView bloqueoTractora;
+    public class BuscarVehiculo_Holder extends RecyclerView.ViewHolder {
+        TextView tvTractora, tvCisterna;
+        ImageView ivTractora, ivCisterna, ivBloqueoTractora, ivBloqueoCisterna, ivTractoraInspeccionada, ivCisternaInspeccionada;
 
-        public ViewHolder(View view){
-            super(view);
-            mView = view;
-            tractora = view.findViewById(R.id.tvTractora);
-            cisterna = view.findViewById(R.id.tvCisterna);
-            bloqueoCisterna = view.findViewById(R.id.ivCisternaBloqueada);
-            bloqueoTractora = view.findViewById(R.id.ind_observaciones);
+        public BuscarVehiculo_Holder(@NonNull View itemView) {
+            super(itemView);
+            tvTractora = itemView.findViewById(R.id.tvTractora);
+            tvCisterna = itemView.findViewById(R.id.tvCisterna);
+            ivTractora = itemView.findViewById(R.id.ivTractora);
+            ivCisterna = itemView.findViewById(R.id.ivCisterna);
+            ivBloqueoCisterna = itemView.findViewById(R.id.ivCisternaBloqueada);
+            ivBloqueoTractora = itemView.findViewById(R.id.ivTractoraBloqueada);
+            ivTractoraInspeccionada = itemView.findViewById(R.id.ivTractoraInspeccionada);
+            ivCisternaInspeccionada = itemView.findViewById(R.id.ivCisternaInspeccionada);
+
+        }
+
+        public void bind(final String tractora, final String cisterna, final int bloqueoTractora, final int bloqueoCisterna, final OnItemClickListener listener){
+            this.tvTractora.setText(tractora);
+            this.tvCisterna.setText(cisterna);
+            this.ivTractoraInspeccionada.setVisibility(View.GONE);
+            this.ivCisternaInspeccionada.setVisibility(View.GONE);
+
+            switch (bloqueoTractora){
+                case 0:
+                    this.ivBloqueoTractora.setVisibility(View.GONE);
+                    break;
+                case 1:
+                    this.ivBloqueoTractora.setImageResource(R.drawable.ic_checked);
+                    break;
+                case 2:
+                    this.ivBloqueoTractora.setImageResource(R.drawable.ic_ban);
+                    break;
+            }
+
+            switch (bloqueoCisterna){
+                case 0:
+                    this.ivBloqueoCisterna.setVisibility(View.GONE);
+                    break;
+                case 1:
+                    this.ivBloqueoCisterna.setImageResource(R.drawable.ic_checked);
+                    break;
+                case 2:
+                    this.ivBloqueoCisterna.setImageResource(R.drawable.ic_ban);
+                    break;
+            }
+
+            itemView.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClick(tractora, cisterna, bloqueoTractora, bloqueoCisterna, getAdapterPosition());
+                }
+            });
+
         }
     }
+
+
+    public interface OnItemClickListener{
+        void onItemClick(String tractora, String cisterna, int bloqueoTractora, int bloqueoCisterna, int position);
+    }
+
+
 }
