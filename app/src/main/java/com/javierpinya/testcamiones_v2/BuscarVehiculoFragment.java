@@ -15,7 +15,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.javierpinya.testcamiones_v2.Clases.TaccamiEntity;
+import com.javierpinya.testcamiones_v2.Clases.TaccondEntity;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,17 +26,28 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class BuscarVehiculoFragment extends Fragment {
+    private EditText etConductor;
     private EditText primerComp;
     private EditText segundoComp;
     private Button buscar;
     private String primer="";
     private String segundo = "";
+    private String conductor="";
     private TacprcoViewModel tacprcoViewModel;
     private TacsecoViewModel tacsecoViewModel;
     private TaccamiViewModel taccamiViewModel;
     private TaccatrViewModel taccatrViewModel;
     private TaccondViewModel taccondViewModel;
     private TplcprtViewModel tplcprtViewModel;
+    private List<TaccamiEntity> taccamiList = new ArrayList<>();
+
+    final List<Integer> cod_vehiculo1 = new ArrayList<>();
+    final List<Integer> cod_vehiculo2 = new ArrayList<>();
+    final List<Integer> listaEquivalente = new ArrayList<>();
+    final List<Integer> tractoras = new ArrayList<>();
+    final List<Integer> cisternas = new ArrayList<>();
+    final List<Boolean> bloqueadoTractoras = new ArrayList<>();
+    final List<Boolean> bloqueadoCisternas = new ArrayList<>();
 
 
     public BuscarVehiculoFragment() {
@@ -48,12 +61,13 @@ public class BuscarVehiculoFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_buscar_vehiculo, container, false);
         primerComp = view.findViewById(R.id.etPrimerComp);
         segundoComp = view.findViewById(R.id.etSegundoComp);
+        etConductor = view.findViewById(R.id.etConductor);
         buscar = view.findViewById(R.id.btnBuscarVehiculo);
         lanzarViewModel();
 
@@ -62,6 +76,7 @@ public class BuscarVehiculoFragment extends Fragment {
             public void onClick(View v) {
                 primer = primerComp.getText().toString();
                 segundo = segundoComp.getText().toString();
+                conductor = etConductor.getText().toString();
                 if (primer.isEmpty() && segundo.isEmpty()){
                     Toast.makeText(getActivity(), "Introduzca una matrícula", Toast.LENGTH_SHORT).show();
                 }else{
@@ -75,11 +90,11 @@ public class BuscarVehiculoFragment extends Fragment {
     }
 
     private void buscarComponentes(String primer, String segundo) {
-        final List<Integer> cod_vehiculo1 = new ArrayList<>();
-        final List<Integer> cod_vehiculo2 = new ArrayList<>();
-        final List<Integer> listaEquivalente = new ArrayList<>();
-        final List<Integer> tractoras = new ArrayList<>();
-        final List<Integer> cisternas = new ArrayList<>();
+        cod_vehiculo1.clear();
+        cod_vehiculo2.clear();
+        listaEquivalente.clear();
+        bloqueadoCisternas.clear();
+        bloqueadoTractoras.clear();
 
         if (primer.length()>0) {
             taccamiViewModel.findTaccamiByTMatricula(primer).observe(getActivity(), new Observer<List<TaccamiEntity>>() {
@@ -124,13 +139,15 @@ public class BuscarVehiculoFragment extends Fragment {
                 @Override
                 public void onChanged(List<TaccamiEntity> taccamiEntities) {
                     tractoras.add(taccamiEntities.get(0).getTractoraId());
-                    cisternas.add(taccamiEntities.get(0).getCisternaId());
+                    cisternas.add(taccamiEntities.get(0).getCisternaId());  //En el caso de los rígidos, esta consulta devolvería null.
                 }
             });
         }
 
-
-
+        for(int i=0;i<listaEquivalente.size();i++){
+            bloqueadoTractoras.add(tacprcoViewModel.findTacprcoById(tractoras.get(i)).isInd_bloqueo());
+            bloqueadoCisternas.add(tacsecoViewModel.findTacsecoById(cisternas.get(i)).getInd_bloqueo());
+        }
 
     }
 

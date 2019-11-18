@@ -12,14 +12,14 @@ import java.util.List;
 
 public class TaccamiViewModel extends AndroidViewModel {
 
-
-    private List<TaccamiEntity> allVehiculos;
+    private LiveData<List<TaccamiEntity>> allTaccami;
     private TaccamiRepository taccamiRepository;
 
     public TaccamiViewModel(Application application){
         super(application);
 
         taccamiRepository = new TaccamiRepository(application);
+        allTaccami = taccamiRepository.findAllTaccami();
     }
 
     public LiveData<List<TaccamiEntity>> findTaccamiByCodVehiculo(int cod_vehiculo){
