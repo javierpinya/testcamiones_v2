@@ -111,8 +111,8 @@ public class SincronizarFragment extends Fragment {
 
         for (int i=0;i<100;i++){
             try {
-                contentTacprco.add("E000" + i + "AAA,20/10/2020,20/10/2020,7210" + i + ",21000,90000" + i + ",T,20/10/2060,E,0,N,N");
-                contentTacseco.add("E000" + i + "BBB,20/10/2020,20/10/2020,5210" + i + ",18000,80000" + i + ",R,20/10/2060,3,0,20/10/2060,E,N,N,N");
+                contentTacprco.add("E000" + i + "AAA,20/10/2020,20/10/2020,7210" + i + ",21000,90000" + i + ",T,20/10/2060,E,0,N,N" + "\n");
+                contentTacseco.add("E000" + i + "BBB,20/10/2020,20/10/2020,5210" + i + ",18000,80000" + i + ",R,20/10/2060,3,0,20/10/2060,E,N,N,N" + "\n");
             }catch(Exception e){
                 e.printStackTrace();
             }
