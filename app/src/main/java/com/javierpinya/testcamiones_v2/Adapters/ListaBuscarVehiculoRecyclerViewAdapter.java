@@ -20,24 +20,26 @@ public class ListaBuscarVehiculoRecyclerViewAdapter extends RecyclerView.Adapter
     private List<String> cisternas;
     private List<Integer> bloqueoTractoras;
     private List<Integer> bloqueoCisternas;
+    private int layout;
     private OnItemClickListener itemClickListener;
 
-    public ListaBuscarVehiculoRecyclerViewAdapter(List<String> tractoras, List<String> cisternas, List<Integer> bloqueoTractoras, List<Integer> bloqueoCisternas, OnItemClickListener listener){
+    public ListaBuscarVehiculoRecyclerViewAdapter(List<String> tractoras, List<String> cisternas, List<Integer> bloqueoTractoras, List<Integer> bloqueoCisternas, int layout, OnItemClickListener listener){
         this.tractoras = tractoras;
         this.cisternas = cisternas;
         this.bloqueoCisternas = bloqueoCisternas;
         this.bloqueoTractoras = bloqueoTractoras;
+        this.layout = layout;
         this.itemClickListener = listener;
     }
 
 
     @NonNull
     @Override
-    public ListaBuscarVehiculoRecyclerViewAdapter.BuscarVehiculo_Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View mView = LayoutInflater.from(parent.getContext()).inflate(R.layout.listview_resultado_buscar_vehiculos, parent, false);
+    public BuscarVehiculo_Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View vh = LayoutInflater.from(parent.getContext()).inflate(R.layout.listview_resultado_buscar_vehiculos, parent, false);
         RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        mView.setLayoutParams(layoutParams);
-        return new BuscarVehiculo_Holder(mView);
+        vh.setLayoutParams(layoutParams);
+        return new BuscarVehiculo_Holder(vh);
     }
 
     @Override

@@ -29,7 +29,7 @@ import com.javierpinya.testcamiones_v2.Dao.TacsecoDao;
 import com.javierpinya.testcamiones_v2.Dao.TplcprtDao;
 import com.javierpinya.testcamiones_v2.Dao.UsuarioDao;
 
-@Database(entities = {UsuarioEntity.class, TaccamiEntity.class, TacprcoEntity.class, TacsecoEntity.class, InspeccionEntity.class, TaccatrEntity.class, TaccondEntity.class, TplcprtEntity.class}, version = 2, exportSchema = false)
+@Database(entities = {UsuarioEntity.class, TaccamiEntity.class, TacprcoEntity.class, TacsecoEntity.class, InspeccionEntity.class, TaccatrEntity.class, TaccondEntity.class, TplcprtEntity.class}, version = 1, exportSchema = false)
 
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
@@ -55,8 +55,8 @@ public abstract class AppDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             AppDatabase.class, "usuario_database")
                             .allowMainThreadQueries()
-                            .addMigrations(MIGRATION_1_2)
                             .build();
+                    //                            .addMigrations(MIGRATION_1_2)
                 }
             }
         }

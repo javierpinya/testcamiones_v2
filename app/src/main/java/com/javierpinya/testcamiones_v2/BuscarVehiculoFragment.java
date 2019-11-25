@@ -13,7 +13,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.javierpinya.testcamiones_v2.Adapters.ListaBuscarVehiculoRecyclerViewAdapter;
 import com.javierpinya.testcamiones_v2.Clases.TaccamiEntity;
 import com.javierpinya.testcamiones_v2.Clases.TaccondEntity;
 
@@ -46,8 +49,16 @@ public class BuscarVehiculoFragment extends Fragment {
     final List<Integer> listaEquivalente = new ArrayList<>();
     final List<Integer> tractoras = new ArrayList<>();
     final List<Integer> cisternas = new ArrayList<>();
-    final List<Boolean> bloqueadoTractoras = new ArrayList<>();
-    final List<Boolean> bloqueadoCisternas = new ArrayList<>();
+    final List<Integer> bloqueadoTractoras = new ArrayList<>();
+    final List<Integer> bloqueadoCisternas = new ArrayList<>();
+
+    private List<String> matT = new ArrayList<>();
+    private List<String> matC = new ArrayList<>();
+
+
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
 
     public BuscarVehiculoFragment() {
@@ -69,7 +80,15 @@ public class BuscarVehiculoFragment extends Fragment {
         segundoComp = view.findViewById(R.id.etSegundoComp);
         etConductor = view.findViewById(R.id.etConductor);
         buscar = view.findViewById(R.id.btnBuscarVehiculo);
+
         lanzarViewModel();
+
+        //RecyclerView
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_identificacionvehiculo);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+
+
+
 
         buscar.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -82,6 +101,15 @@ public class BuscarVehiculoFragment extends Fragment {
                 }else{
                     //Buscar con el modelView
                     buscarComponentes(primer, segundo);
+                    mAdapter = new ListaBuscarVehiculoRecyclerViewAdapter(matT, matC, bloqueadoTractoras, bloqueadoCisternas, R.layout.listview_resultado_buscar_vehiculos, new ListaBuscarVehiculoRecyclerViewAdapter.OnItemClickListener(){
+                        @Override
+                        public void onItemClick(String tractora, String cisterna, int bloqueoTractora, int bloqueoCisterna, int position) {
+                            Toast.makeText(getActivity(), "Has pulsado sobre el objecto: " + position, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    mRecyclerView.setLayoutManager(mLayoutManager);
+                    mRecyclerView.setAdapter(mAdapter);
                 }
             }
         });
@@ -139,16 +167,36 @@ public class BuscarVehiculoFragment extends Fragment {
                 @Override
                 public void onChanged(List<TaccamiEntity> taccamiEntities) {
                     tractoras.add(taccamiEntities.get(0).getTractoraId());
+                    if (taccamiEntities.get(0) == null){
+                        cisternas.add(0);
+                    }
                     cisternas.add(taccamiEntities.get(0).getCisternaId());  //En el caso de los rígidos, esta consulta devolvería null.
                 }
             });
         }
 
         for(int i=0;i<listaEquivalente.size();i++){
-            bloqueadoTractoras.add(tacprcoViewModel.findTacprcoById(tractoras.get(i)).isInd_bloqueo());
-            bloqueadoCisternas.add(tacsecoViewModel.findTacsecoById(cisternas.get(i)).getInd_bloqueo());
-        }
 
+            if(cisternas.get(i)==0){
+                bloqueadoCisternas.add(0); //nulo
+                matC.add("-");
+            }else{
+                if(tacsecoViewModel.findTacsecoById(cisternas.get(i)).getInd_bloqueo()){
+                    bloqueadoCisternas.add(1); //bloqueado
+                }else{
+                    bloqueadoCisternas.add(2); //no bloqueado
+                }
+                matC.add(tacsecoViewModel.findTacsecoById(cisternas.get(i)).getMatricula());
+            }
+            if(tacprcoViewModel.findTacprcoById(tractoras.get(i)).isInd_bloqueo()){
+                bloqueadoTractoras.add(1);
+            }else{
+                bloqueadoTractoras.add(2);
+            }
+
+            matT.add(tacprcoViewModel.findTacprcoById(tractoras.get(i)).getMatricula());
+
+        }
     }
 
     private void lanzarViewModel() {
