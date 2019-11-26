@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroupOverlay;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -52,8 +53,6 @@ import java.util.List;
 public class SincronizarFragment extends Fragment {
 
     private static final int READ_REQUEST_CODE = 1000;
-    private int tacprcoid;
-    private int tacsecoid;
     private String matricula_archivo="";
     private Button btnSincronizar;
     private Button btnLeerBD;
@@ -65,6 +64,8 @@ public class SincronizarFragment extends Fragment {
     private TaccatrViewModel taccatrViewModel;
     private TaccondViewModel taccondViewModel;
     private TplcprtViewModel tplcprtViewModel;
+    private TaccamiEntity taccamiEntity;
+    private TaccatrEntity taccatrEntity;
     private NuevoUsuarioDialogViewModel mViewModel;
     private List<TacprcoEntity> tractoras = new ArrayList<>();
     private List<UsuarioEntity> usuarios = new ArrayList<>();
@@ -73,14 +74,22 @@ public class SincronizarFragment extends Fragment {
     private final String filename = "prueba_testcamiones2";
     private final List<String> contentTacprco = new ArrayList<>();
     private final List<String> contentTacseco = new ArrayList<>();
+    private final List<String> contentTaccami = new ArrayList<>();
     private final String path = "/storage/emulated/0/Download/TestCamiones/";
     private TacprcoEntity tacprcoEntity;
     private Date date = new Date();
     private final DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
     private SimpleDateFormat parseador = new SimpleDateFormat("dd/MM/yyyy");
     private int taccamiSize;
-    private List<Integer> taccamiId = new ArrayList<>();
-
+    private List<Integer> taccamiIds = new ArrayList<>();
+    private List<Integer> tacprcoids = new ArrayList<>();
+    private List<String> tacprcoMat = new ArrayList<>();
+    private List<Integer> tacsecoids = new ArrayList<>();
+    private List<String> tacsecoMat = new ArrayList<>();
+    private int tacprcoid;
+    private int tacsecoid;
+    private int taccamiid;
+    private List<String> contentTaccatr = new ArrayList<>();
 
 
     public SincronizarFragment() {
@@ -113,12 +122,16 @@ public class SincronizarFragment extends Fragment {
             try {
                 contentTacprco.add("E000" + i + "AAA,20/10/2020,20/10/2020,7210" + i + ",21000,90000" + i + ",T,20/10/2060,E,0,N,N" + "\n");
                 contentTacseco.add("E000" + i + "BBB,20/10/2020,20/10/2020,5210" + i + ",18000,80000" + i + ",R,20/10/2060,3,0,20/10/2060,E,N,N,N" + "\n");
+                contentTaccami.add(i + ",E000" + i + "AAA,E000" + i + "BBB,18000,40000,20/10/2020\n");
+                contentTaccatr.add(i + ",0010,23" + i + ",20/10/2020\n");
             }catch(Exception e){
                 e.printStackTrace();
             }
         }
         saveTextAsFile("Tacprco", contentTacprco);
         saveTextAsFile("Tacseco", contentTacseco);
+        saveTextAsFile("Taccami", contentTaccami);
+        saveTextAsFile("Taccatr", contentTaccatr);
 
 
         btnSincronizar.setOnClickListener(new View.OnClickListener() {
@@ -129,9 +142,12 @@ public class SincronizarFragment extends Fragment {
                 tacprcoViewModel.deleteAllTacprco();
                 tacsecoViewModel.deleteAllTacseco();
                 taccamiViewModel.deleteAllTaccami();
+                taccatrViewModel.deleteAllTaccatr();
 
-                leerTacprco();
-                leerTacseco();
+                leerTacprco("Tacprco.csv");
+                leerTacseco("Tacseco.csv");
+                leerTaccami("Taccami.csv");
+                leerTaccatr("Taccatr.csv");
 
                 /*
                 //Creamos los datos
@@ -151,8 +167,13 @@ public class SincronizarFragment extends Fragment {
         btnGuardarVehiculo.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                guardarVehiculo();
-                guardarTaccatr();
+                taccamiViewModel.findTaccamiByCodVehiculo(2).observe(getActivity(), new Observer<List<TaccamiEntity>>() {
+                    @Override
+                    public void onChanged(List<TaccamiEntity> taccamiEntities) {
+                        Log.d("TACCAMI: ", String.valueOf(taccamiEntities.get(0).getCod_vehiculo()));
+                    }
+                });
+
             }
         });
 
@@ -195,6 +216,8 @@ public class SincronizarFragment extends Fragment {
         return view;
     }
 
+
+
     private void lanzarViewModel(){
 
         mViewModel = ViewModelProviders.of(getActivity()).get(NuevoUsuarioDialogViewModel.class);
@@ -213,56 +236,8 @@ public class SincronizarFragment extends Fragment {
         tplcprtViewModel = ViewModelProviders.of(getActivity()).get(TplcprtViewModel.class);
     }
 
-    private void guardarVehiculo(){
-
-        try{
-            tacprcoViewModel.findTacprcoByMatricula("E0001AAA").observe(getActivity(), new Observer<List<TacprcoEntity>>() {
-                @Override
-                public void onChanged(List<TacprcoEntity> tacprcoEntities) {
-                    tacprcoid = tacprcoEntities.get(0).getId();
-                }
-            });
-
-            tacsecoViewModel.findTacsecoByMatricula("E0001BBB").observe(getActivity(), new Observer<List<TacsecoEntity>>() {
-                @Override
-                public void onChanged(List<TacsecoEntity> tacsecoEntities) {
-                    tacsecoid = tacsecoEntities.get(0).getId();
-                }
-            });
-            Toast.makeText(getActivity(), "tacprcoid= " + tacprcoid + " tacsecoid= " + tacsecoid, Toast.LENGTH_SHORT).show();
-            Log.d("tacprcoid", String.valueOf(tacprcoid));
-            Log.d("tacsecoid", String.valueOf(tacsecoid));
-           // taccamiViewModel.insertarVehiculo(new TaccamiEntity(1, tacprcoid, tacsecoid, 13000, 40000, null));
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-    }
-
-    private void guardarTaccatr(){
-        taccamiViewModel.findAllVehiculos().observe(getActivity(), new Observer<List<TaccamiEntity>>() {
-            @Override
-            public void onChanged(List<TaccamiEntity> taccamiEntities) {
-                taccamiSize =taccamiEntities.size();
-                for(int i = 0; i< taccamiSize; i++){
-                    taccamiId.add(taccamiEntities.get(i).getId());
-                }
-            }
-        });
-        for(int i = 0; i< taccamiSize; i++) {
-
-            try {
-               // taccatrViewModel.insertTaccatr(new TaccatrEntity(taccamiId.get(i), "000"+i, "123", null));
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     // Read contentTacprco of the file
-    private void leerTacprco(){
-        String filename = "Tacprco.csv";
+    private void leerTacprco(String filename){
         boolean gas = false;
         boolean blo = false;
         boolean que = false;
@@ -305,8 +280,7 @@ public class SincronizarFragment extends Fragment {
 
     }
 
-    private void leerTacseco(){
-        String filename = "Tacseco.csv";
+    private void leerTacseco(String filename){
         boolean pes = false;
         boolean gas = false;
         boolean blo = false;
@@ -319,25 +293,25 @@ public class SincronizarFragment extends Fragment {
             String[] nextLine;
             while ((nextLine = reader.readNext()) != null) {
 
-                if (nextLine[10] == "N" || nextLine[10] == "0" || nextLine[10] == "") {
+                if (nextLine[9] == "N" || nextLine[9] == "0" || nextLine[9] == "") {
                     pes = false;
                 } else {
                     pes = true;
                 }
 
-                if (nextLine[13] == "N" || nextLine[13] == "0" || nextLine[13] == "") {
+                if (nextLine[12] == "N" || nextLine[12] == "0" || nextLine[12] == "") {
                     gas = false;
                 } else {
                     gas = true;
                 }
 
-                if (nextLine[14] == "N" || nextLine[14] == "0" || nextLine[14] == "") {
+                if (nextLine[13] == "N" || nextLine[13] == "0" || nextLine[13] == "") {
                     blo = false;
                 } else {
                     blo = true;
                 }
 
-                if (nextLine[15] == "N" || nextLine[15] == "0" || nextLine[15] == "")
+                if (nextLine[14] == "N" || nextLine[14] == "0" || nextLine[14] == "")
                     que = false;
                 else{
                     que = true;
@@ -351,6 +325,79 @@ public class SincronizarFragment extends Fragment {
         }catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+    private void leerTaccami(String filename) {
+
+
+        File file = new File(getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), filename);
+
+        try {
+            CSVReader reader = new CSVReader(new FileReader(file));
+            String[] nextLine;
+            while ((nextLine = reader.readNext()) != null) {
+                try {
+                    taccamiViewModel.insertarVehiculo(new TaccamiEntity(Integer.valueOf(nextLine[0]), Integer.valueOf(nextLine[3]), Integer.valueOf(nextLine[4]),parseador.parse(nextLine[5])));
+                    taccamiViewModel.findTaccamiByCodVehiculo(Integer.valueOf(nextLine[0])).observe(getActivity(), new Observer<List<TaccamiEntity>>() {
+                        @Override
+                        public void onChanged(List<TaccamiEntity> taccamiEntities) {
+                            taccamiid = taccamiEntities.get(0).getId();
+                        }
+                    });
+                    tacprcoViewModel.findTacprcoByMatricula(nextLine[1]).observe(getActivity(), new Observer<List<TacprcoEntity>>() {
+                        @Override
+                        public void onChanged(List<TacprcoEntity> tacprcoEntities) {
+                            tacprcoid = tacprcoEntities.get(0).getId();
+                        }
+                    });
+                    tacsecoViewModel.findTacsecoByMatricula(nextLine[2]).observe(getActivity(), new Observer<List<TacsecoEntity>>() {
+                        @Override
+                        public void onChanged(List<TacsecoEntity> tacsecoEntities) {
+                            tacsecoid = tacsecoEntities.get(0).getId();
+                        }
+                    });
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                taccamiEntity = new TaccamiEntity();
+                taccamiEntity.setId(taccamiid);
+                taccamiEntity.setTractoraId(tacprcoid);
+                taccamiEntity.setCisternaId(tacsecoid);
+                taccamiViewModel.updateVehiculo(taccamiEntity);
+            }
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void leerTaccatr(String filename){
+        File file = new File(getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), filename);
+        try {
+            CSVReader reader = new CSVReader(new FileReader(file));
+            String[] nextLine;
+            while ((nextLine = reader.readNext()) != null) {
+                try {
+                    taccatrViewModel.insertTaccatr(new TaccatrEntity(nextLine[1], nextLine[2], parseador.parse(nextLine[3])));
+                    taccamiViewModel.findTaccamiByCodVehiculo(Integer.valueOf(nextLine[0])).observe(getActivity(), new Observer<List<TaccamiEntity>>() {
+                        @Override
+                        public void onChanged(List<TaccamiEntity> taccamiEntities) {
+                            taccamiid = taccamiEntities.get(0).getId();
+                        }
+                    });
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                taccatrEntity = new TaccatrEntity();
+                taccatrEntity.setId(taccamiid);
+                taccatrEntity.setVehiculoId(taccamiid);
+                taccatrViewModel.updateTaccatr(taccatrEntity);
+            }
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
     }
 
     //Select file from storate
@@ -397,10 +444,4 @@ public class SincronizarFragment extends Fragment {
         }
 
     }
-
-
-
-
-
-
 }

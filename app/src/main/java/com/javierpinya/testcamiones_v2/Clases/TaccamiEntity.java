@@ -40,10 +40,10 @@ public class TaccamiEntity {
     public int pesoMaximo;
     public Date fec_baja;
 
-    public TaccamiEntity(int cod_vehiculo, int tractoraId, int cisternaId, int tara, int pesoMaximo, Date fec_baja) {
+    public TaccamiEntity(){}
+
+    public TaccamiEntity(int cod_vehiculo, int tara, int pesoMaximo, Date fec_baja) {
         this.cod_vehiculo = cod_vehiculo;
-        this.tractoraId = tractoraId;
-        this.cisternaId = cisternaId;
         this.tara = tara;
         this.pesoMaximo = pesoMaximo;
         this.fec_baja = new Date();

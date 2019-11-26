@@ -29,8 +29,8 @@ public class TaccatrEntity {
     public String slo;
     public Date fec_baja;
 
-    public TaccatrEntity(int vehiculoId, String cod_transportista, String slo, Date fec_baja) {
-        this.vehiculoId = vehiculoId;
+    public TaccatrEntity(){}
+    public TaccatrEntity(String cod_transportista, String slo, Date fec_baja) {
         this.cod_transportista = cod_transportista;
         this.slo = slo;
         this.fec_baja = new Date();

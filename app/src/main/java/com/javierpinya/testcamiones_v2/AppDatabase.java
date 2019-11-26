@@ -2,13 +2,10 @@ package com.javierpinya.testcamiones_v2;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
-import androidx.room.migration.Migration;
-import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.javierpinya.testcamiones_v2.Clases.InspeccionEntity;
 import com.javierpinya.testcamiones_v2.Clases.TaccamiEntity;
@@ -18,7 +15,6 @@ import com.javierpinya.testcamiones_v2.Clases.TacprcoEntity;
 import com.javierpinya.testcamiones_v2.Clases.TacsecoEntity;
 import com.javierpinya.testcamiones_v2.Clases.TplcprtEntity;
 import com.javierpinya.testcamiones_v2.Clases.UsuarioEntity;
-import com.javierpinya.testcamiones_v2.Constants.Constants;
 import com.javierpinya.testcamiones_v2.Converters.Converters;
 import com.javierpinya.testcamiones_v2.Dao.InspeccionDao;
 import com.javierpinya.testcamiones_v2.Dao.TaccamiDao;
@@ -29,7 +25,7 @@ import com.javierpinya.testcamiones_v2.Dao.TacsecoDao;
 import com.javierpinya.testcamiones_v2.Dao.TplcprtDao;
 import com.javierpinya.testcamiones_v2.Dao.UsuarioDao;
 
-@Database(entities = {UsuarioEntity.class, TaccamiEntity.class, TacprcoEntity.class, TacsecoEntity.class, InspeccionEntity.class, TaccatrEntity.class, TaccondEntity.class, TplcprtEntity.class}, version = 1, exportSchema = false)
+@Database(entities = {UsuarioEntity.class, TaccamiEntity.class, TacprcoEntity.class, TacsecoEntity.class, InspeccionEntity.class, TaccatrEntity.class, TaccondEntity.class, TplcprtEntity.class}, version = 2, exportSchema = false)
 
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
@@ -51,6 +47,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public static AppDatabase getDatabase(final Context context){
         if (INSTANCE == null){
             synchronized (AppDatabase.class){
+
                 if (INSTANCE == null){
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             AppDatabase.class, "usuario_database")
@@ -66,6 +63,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public static void destroyInstance(){ INSTANCE = null; }
 
+    /*
     static final Migration MIGRATION_1_2 = new Migration(1,2) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
@@ -193,4 +191,6 @@ public abstract class AppDatabase extends RoomDatabase {
 
         }
     };
+
+     */
 }
