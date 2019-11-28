@@ -141,13 +141,19 @@ public class SincronizarFragment extends Fragment {
 
                 tacprcoViewModel.deleteAllTacprco();
                 tacsecoViewModel.deleteAllTacseco();
-                taccamiViewModel.deleteAllTaccami();
+                //taccamiViewModel.deleteAllTaccami();
                 taccatrViewModel.deleteAllTaccatr();
 
                 leerTacprco("Tacprco.csv");
                 leerTacseco("Tacseco.csv");
-                leerTaccami("Taccami.csv");
-                leerTaccatr("Taccatr.csv");
+                taccamiViewModel.findAllVehiculos().observe(getActivity(), new Observer<List<TaccamiEntity>>() {
+                    @Override
+                    public void onChanged(List<TaccamiEntity> taccamiEntities) {
+                        Toast.makeText(getActivity(), String.valueOf(taccamiEntities.size()), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                //leerTaccatr("Taccatr.csv");
 
                 /*
                 //Creamos los datos
@@ -167,12 +173,15 @@ public class SincronizarFragment extends Fragment {
         btnGuardarVehiculo.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                taccamiViewModel.findTaccamiByCodVehiculo(2).observe(getActivity(), new Observer<List<TaccamiEntity>>() {
+                leerTaccami("Taccami.csv");
+                //completarTaccami("Taccami.csv");
+                /* taccamiViewModel.findTaccamiByCodVehiculo(2).observe(getActivity(), new Observer<List<TaccamiEntity>>() {
                     @Override
                     public void onChanged(List<TaccamiEntity> taccamiEntities) {
                         Log.d("TACCAMI: ", String.valueOf(taccamiEntities.get(0).getCod_vehiculo()));
                     }
                 });
+        */
 
             }
         });
@@ -336,39 +345,85 @@ public class SincronizarFragment extends Fragment {
             CSVReader reader = new CSVReader(new FileReader(file));
             String[] nextLine;
             while ((nextLine = reader.readNext()) != null) {
+                Log.d("nextline[0]:" , nextLine[0]);
+                Log.d("nextline[1]:" , nextLine[1]);
+                Log.d("nextline[2]:" , nextLine[2]);
+                Log.d("nextline[3]:" , nextLine[3]);
+                Log.d("nextline[4]:" , nextLine[4]);
+                Log.d("nextline[5]:" , nextLine[5]);
+                tacprcoViewModel.findTacprcoByMatricula(nextLine[1]).observe(getActivity(), new Observer<List<TacprcoEntity>>() {
+                    @Override
+                    public void onChanged(List<TacprcoEntity> tacprcoEntities) {
+                        tacprcoid = tacprcoEntities.get(0).getId();
+                    }
+                });
+                tacsecoViewModel.findTacsecoByMatricula(nextLine[2]).observe(getActivity(), new Observer<List<TacsecoEntity>>() {
+                    @Override
+                    public void onChanged(List<TacsecoEntity> tacsecoEntities) {
+                        tacsecoid = tacsecoEntities.get(0).getId();
+                    }
+                });
                 try {
-                    taccamiViewModel.insertarVehiculo(new TaccamiEntity(Integer.valueOf(nextLine[0]), Integer.valueOf(nextLine[3]), Integer.valueOf(nextLine[4]),parseador.parse(nextLine[5])));
-                    taccamiViewModel.findTaccamiByCodVehiculo(Integer.valueOf(nextLine[0])).observe(getActivity(), new Observer<List<TaccamiEntity>>() {
-                        @Override
-                        public void onChanged(List<TaccamiEntity> taccamiEntities) {
-                            taccamiid = taccamiEntities.get(0).getId();
-                        }
-                    });
-                    tacprcoViewModel.findTacprcoByMatricula(nextLine[1]).observe(getActivity(), new Observer<List<TacprcoEntity>>() {
-                        @Override
-                        public void onChanged(List<TacprcoEntity> tacprcoEntities) {
-                            tacprcoid = tacprcoEntities.get(0).getId();
-                        }
-                    });
-                    tacsecoViewModel.findTacsecoByMatricula(nextLine[2]).observe(getActivity(), new Observer<List<TacsecoEntity>>() {
-                        @Override
-                        public void onChanged(List<TacsecoEntity> tacsecoEntities) {
-                            tacsecoid = tacsecoEntities.get(0).getId();
-                        }
-                    });
+                    taccamiEntity = new TaccamiEntity();
+                    taccamiEntity.setCod_vehiculo(Integer.valueOf(nextLine[0]));
+                    taccamiEntity.setTractoraId(2);
+                    taccamiEntity.setCisternaId(2);
+                    taccamiEntity.setTara(Integer.valueOf(nextLine[3]));
+                    taccamiEntity.setPesoMaximo(Integer.valueOf(nextLine[4]));
+                    taccamiEntity.setFec_baja((parseador.parse(nextLine[5])));
+                    taccamiViewModel.insertarVehiculo(taccamiEntity);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                taccamiEntity = new TaccamiEntity();
-                taccamiEntity.setId(taccamiid);
-                taccamiEntity.setTractoraId(tacprcoid);
-                taccamiEntity.setCisternaId(tacsecoid);
-                taccamiViewModel.updateVehiculo(taccamiEntity);
             }
 
         }catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+    private void completarTaccami(String filename){
+        File file = new File(getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), filename);
+        try {
+            CSVReader reader = new CSVReader(new FileReader(file));
+            String[] nextLine;
+            while ((nextLine = reader.readNext()) != null) {
+
+                taccamiViewModel.findTaccamiByCodVehiculo(Integer.valueOf(nextLine[0])).observe(getActivity(), new Observer<List<TaccamiEntity>>() {
+                    @Override
+                    public void onChanged(List<TaccamiEntity> taccamiEntities) {
+                        taccamiid = taccamiEntities.get(0).getId();
+                        Log.d("taccami size", String.valueOf(taccamiEntities.size()));
+                    }
+                });
+
+
+                tacprcoViewModel.findTacprcoByMatricula(nextLine[1]).observe(getActivity(), new Observer<List<TacprcoEntity>>() {
+                    @Override
+                    public void onChanged(List<TacprcoEntity> tacprcoEntities) {
+                        tacprcoid = tacprcoEntities.get(0).getId();
+                    }
+                });
+                tacsecoViewModel.findTacsecoByMatricula(nextLine[2]).observe(getActivity(), new Observer<List<TacsecoEntity>>() {
+                    @Override
+                    public void onChanged(List<TacsecoEntity> tacsecoEntities) {
+                        tacsecoid = tacsecoEntities.get(0).getId();
+                    }
+                });
+                /*
+                taccamiEntity = new TaccamiEntity();
+                taccamiEntity.setId(taccamiid);
+                taccamiEntity.setTractoraId(tacprcoid);
+                taccamiEntity.setCisternaId(tacsecoid);
+                taccamiViewModel.updateVehiculo(taccamiEntity);
+
+                 */
+            }
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
     }
 
     private void leerTaccatr(String filename){
@@ -388,10 +443,13 @@ public class SincronizarFragment extends Fragment {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
+                /*
                 taccatrEntity = new TaccatrEntity();
                 taccatrEntity.setId(taccamiid);
                 taccatrEntity.setVehiculoId(taccamiid);
                 taccatrViewModel.updateTaccatr(taccatrEntity);
+
+                 */
             }
 
         }catch (IOException e){

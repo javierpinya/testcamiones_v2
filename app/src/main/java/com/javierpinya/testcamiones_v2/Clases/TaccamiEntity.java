@@ -40,15 +40,21 @@ public class TaccamiEntity {
     public int pesoMaximo;
     public Date fec_baja;
 
-    public TaccamiEntity(){}
+    //public TaccamiEntity(){}
 
-    public TaccamiEntity(int cod_vehiculo, int tara, int pesoMaximo, Date fec_baja) {
+    /*
+
+    public TaccamiEntity(int cod_vehiculo, int tractoraid, int cisternaid, int tara, int pesoMaximo, Date fec_baja) {
         this.cod_vehiculo = cod_vehiculo;
+        this.tractoraId = tractoraid;
+        this.cisternaId = cisternaid;
         this.tara = tara;
         this.pesoMaximo = pesoMaximo;
         this.fec_baja = new Date();
         this.fec_baja = fec_baja;
     }
+
+     */
 
     public int getId() {
         return id;
